@@ -6,6 +6,7 @@
     box-sizing: border-box;
 }
 
+
 body {
     font-family: "Quicksand", sans-serif;
     background: url(/assets/img/background.jpg) center/cover no-repeat;
@@ -16,6 +17,7 @@ body {
     height: 100vh;
 }
 
+
 .container {
     display: flex;
     justify-content: center;
@@ -23,10 +25,12 @@ body {
     height: 100vh;
 }
 
+
 .wrapper {
     width: 100%;
     max-width: 400px;
 }
+
 
 .registration-box {
     background-color: transparent;
@@ -36,16 +40,19 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
 .registration-section {
     text-align: center;
     color: white;
 }
+
 
 .logo {
     width: 100%;
     max-width: 150px;
     margin-bottom: 20px;
 }
+
 
 form {
     display: flex;
@@ -57,6 +64,7 @@ form {
     position: relative;
 }
 
+
 input {
     width: 100%;
     padding: 12px;
@@ -64,6 +72,7 @@ input {
     border-radius: 4px;
     font-family: "Poppins", sans-serif;
 }
+
 
 .input-field i {
     position: absolute;
@@ -74,6 +83,7 @@ input {
     font-size: 18px;
 }
 
+
 button {
     background-color: #ff0095;
     color: #fff;
@@ -83,14 +93,17 @@ button {
     cursor: pointer;
 }
 
+
 button:hover {
     background-color: #e6008b;
 }
+
 
 p {
     margin-top: 16px;
     color: white;
 }
+
 
 a {
     color: #ff0095;
