@@ -1,0 +1,101 @@
+.header {
+  padding: 80px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+}
+
+
+.header h1 {
+  font-size: 40px;
+}
+
+
+.navbar {
+
+  overflow: hidden;
+  background-color: #154d08;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+
+.navbar a.right {
+  float: right;
+}
+
+.navbar a:hover {
+  background-color: #2a8e23;
+  color: black;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.side {
+  flex: 30%;
+  background-color: gray;
+  padding: 20px;
+}
+
+.main {
+  flex: 70%;
+  background-color: white;
+  padding: 20px;
+}
+
+@media screen and (max-width: 700px) {
+  .row {
+    flex-direction: column;
+  }
+}
+
+.main input[type=text] {
+  width: calc(100% - 140px);
+  margin-right: 10px;
+  float: centre;
+  padding: 6px;
+  border-style: groove;
+  border-color: #154d08;
+  margin-top: 8px;
+  font-size: 17px;
+}
+
+.main button[type="submit"] {
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+background-color: aliceblue;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+.main button[type="submit"]:hover {
+  background-color: #1abc9c; /* Change color on hover */
+}
+
+@media screen and (max-width: 400px) {
+  .navbar a {
+    float: none;
+    width: 100%;
+  }
+}
+
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #1abc9c;
+}
+
