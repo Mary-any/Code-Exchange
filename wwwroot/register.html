@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <link rel="stylesheet" href="/assets/register.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="wrapper">
+                <div class="registration-box">
+                    <div class="registration-section">
+                        <h1>Register</h1>
+                        <form id="registerForm">
+
+
+                            <div class="input-field">
+                                <input id="registerFirst" type="text" placeholder="Enter your First Name" required autocomplete="off">
+                                
+                            </div>
+
+                            <div class="input-field">
+                                <input id="registerLast" type="text" placeholder="Enter Last Name" required autocomplete="off">
+                                
+                            </div>
+
+                            <div class="input-field">
+                                <input id="registerUsername" type="text" placeholder="Enter your username" required autocomplete="off">
+                                <i class="uil uil-user"></i>
+                            </div>
+
+                            <div class="input-field">
+                                <input id="registerEmail" type="text" placeholder="Enter your email" required autocomplete="off">
+                                <i class="uil uil-envelope icon"></i>
+                            </div>
+
+                            
+                            <div class="input-field">
+                                <input id="registerPassword" type="text" class="password" placeholder="Create password" required autocomplete="off">
+                                <i class="uil uil-lock icon"></i>
+                            </div>
+
+                            <div class="input-field password-container">
+                                 <input id="confirmPassword" type="password" class="password" placeholder="confirm Password" required autocomplete="off">
+                                 <i class="uil uil-eye-slash showHidePw"></i>
+                            </div>
+
+                            <div class="input-field button">
+                                <button id="Registerbutton" class="btn" value="Registreer">Register</button>
+                            </div>
+
+                        </form>
+                        <p> Already have an account ? <a href="/login.html">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="src/register.ts"></script>
+</body>
+</html>
