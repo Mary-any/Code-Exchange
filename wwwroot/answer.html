@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Title -->
+    <title>Q&A Platform</title>
+
+    <!-- CSS file -->
+    <link rel="stylesheet" href="/assets/css/answer.css">
+</head>
+<body>
+    <header>
+    
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Questions</a>
+            <a href="#">About</a>
+           
+        </nav>
+
+        <h1>Q&A Platform</h1>
+    </header>
+
+    <main>
+        <section id="answerForm">
+            <h2>Provide an Answer</h2>
+            <form id="answerSubmitForm">
+                <label for="answerText">Your Answer:</label>
+                <textarea id="answerText" placeholder="Enter your answer" required></textarea>
+
+                <!-- Hidden input fields to store user information -->
+
+                <input type="hidden" id="answerName">
+                <input type="hidden" id="answerUsername">
+                <!-- <input type="hidden" id="answerDate" value="12-12-2023"> -->
+                <!-- <input type="hidden" id="answerAccepted" value="N"> -->
+                <input type="hidden" id="answerVotes" value="0">
+
+                <button id="submitAnswerButton">Submit Answer</button> 
+            </form>
+            
+        </section>
+        <section id="answers">
+            <h2> Your Answers</h2>
+            
+
+            <ul id="answersList"><!-- Answers will be added here --></ul>
+            <label for="answerDate">answerDate Date:</label>
+            <input type="text" id="answerDate" name="answerDate" readonly>
+            <input type="number" id="answerVotes" name="answerVotes" min="0" value="0">
+
+
+           <!-- Checkbox -->
+
+<form id="answerAccepted">
+    <input type="checkbox" id="Yes" name="checkboxYes" value="check1">
+    <label for="checkboxYes">Yes</label>
+
+    <input type="checkbox" id="No" name="checkboxNo" value="check2">
+    <label for="checkboxNo">No</label>
+</form>
+
+
+        </section>
+    </main>
+
+<!-- Typescript file -->
+    <script type="module" src="src/answer.ts" defer></script>
+</body>
+</html>
