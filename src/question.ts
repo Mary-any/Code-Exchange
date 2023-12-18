@@ -11,32 +11,51 @@ async function insert(): Promise<void> {
         console.log("inside insert...");
 
         // hier haal ik de question id in de sessie
-        const questionId: any = session.get("question");
+        const questionId: any = 1; session.get("question");
         console.log("questionId:", questionId);
 
         // hier haal je de questions op met questionid
-        const question: question | undefined = await getQuestionInfo(questionId);
-        console.log("retrieved question:", question);
-        
+        const Question: Question[] | undefined = await getQuestionInfo(questionId);
+        console.log("retrieved question:", Question);
+
         // hier worden de questions in de website gezien dus de element pakken van html
-        if (question) {
+        if (Question) {
             const questionInfo: any = document.getElementById("questionInfo");
             console.log("Question Info Element:", questionInfo);
-
+           
             if (questionInfo) {
                 const questionHTML: any =
 
-                    `<h2>question Information</h2> 
-                    <p>ID: ${question.questionId} </p>
-                    <p>Question: ${question.question} </p>
-                    <p>Snippet: ${question.questionSnippet} </p>
-                    <p>Date: ${question.questionDate} </p>`;
+                    `<h2>questions</h2> 
+                    <p>Question: ${Question.question} </p>
+                    <p>Date: ${Question.questionDate} </p>`;
 
                 questionInfo.innerHTML = questionHTML;
+
+                questionInfo.style.cursor = "pointer";
+                questionInfo.addEventListener("click", async () => {
+                    console.log("dic clicked");
+
+                    const allQuestions: Question[] | undefined = await getQuestionInfo(questionId);
+                    console.log("All questions:", allQuestions);
+
+                    // Process 'allQuestions' to display them in HTML as needed
+                    if (allQuestions) {
+                        // Loop through 'allQuestions' and display them in HTML
+                        allQuestions.forEach((q) => {
+                            // Generate HTML to display 'q' and add it to the page
+                            // Example: Create <div> or <p> elements and append them to 'questionInfo'
+
+                        });
+                    } else {
+                        console.error("No questions retrieved");
+                    }
+                });
 
             } else {
                 console.error("element with id question info not found");
             }
+
         } else {
             console.error("no data retrieved");
         }
@@ -45,37 +64,53 @@ async function insert(): Promise<void> {
     }
 }
 
+
+function truncateString(str: string, maxLength: number): string {
+    if (str.length > maxLength) {
+        return str.substring(0, maxLength) + "..."; // Append ellipsis if truncated
+    }
+    return str;
+}
+
+
+
 // geeft value aan een question
-interface question {
+interface Question {
     questionId: number;
     question: string;
     questionSnippet: string;
     questionDate: number;
-    
+
 }
 
-
 // hier haalt het de question info op van de database
-async function getQuestionInfo(questionId: number): Promise<question | undefined> {
+async function getQuestionInfo(questionId: number): Promise<Question[] | undefined> {
     try {
         console.log("getting question info for questionId:", questionId);
         // hier vraagt hij de database om de info op te halen met behulp van question id
-        const data: any = await api.queryDatabase("SELECT * FROM question WHERE questionid = ?", questionId);
+        const data: Array<any> = await api.queryDatabase("SELECT * FROM question WHERE questionId  = ?", [questionId]) as Array<any>;
         console.log("Retrieved data:", data);
-        
-        
-        if (data.length > 0) {
-            // alle info in question doen
-            const question: question = {
-                questionId: data[0]["questionId"],
-                question: data[0]["question"],
-                questionSnippet: data[0]["questionSnippet"],
-                questionDate: data[0]["questionDate"],
-            };
-            //pakt data en doet het in query
-            console.log("formatted question", question);
-            return question;
 
+
+        if (data.length > 0) {
+            const questions: Question[] = [];
+
+            // alle info in question doen
+
+            for (let i: number = 0; i < data.length; i++) {
+                const formattedQuestion: Question = {
+                    questionId: data[i]["questionId"],
+                    question: data[i]["question"],
+                    questionSnippet: data[i]["questionSnippet"],
+                    questionDate: data[i]["questionDate"],
+                };
+
+                questions.push(formattedQuestion);
+                //pakt data en doet het in query
+                console.log("formatted question", formattedQuestion);
+
+            }
+            return questions;
         } else {
             console.warn("no data found", questionId);
             return undefined;
@@ -93,6 +128,8 @@ async function getQuestionInfo(questionId: number): Promise<question | undefined
 
 }
 
-
 // het doet de insert functie
 insert();
+
+
+
