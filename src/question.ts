@@ -27,14 +27,14 @@ async function insert(): Promise<void> {
                 const questionHTML: any =
 
                     `<h2>questions</h2> 
-                    <p>Question: ${Question.question} </p>
-                    <p>Date: ${Question.questionDate} </p>`;
+                    <p>Question: ${Question.length > 0 ? Question[0].question : "No question available"}</p>
+                    <p>Date: ${Question.length > 0 ? Question[0].questionDate : "No date available"}</p>`;
 
                 questionInfo.innerHTML = questionHTML;
 
                 questionInfo.style.cursor = "pointer";
                 questionInfo.addEventListener("click", async () => {
-                    console.log("dic clicked");
+                    console.log("div clicked");
 
                     const allQuestions: Question[] | undefined = await getQuestionInfo(questionId);
                     console.log("All questions:", allQuestions);
