@@ -11,59 +11,60 @@ async function insert(): Promise<void> {
         console.log("inside insert...");
 
         // hier haal ik de question id in de sessie
-        const questionId: any = 1; session.get("question");
+        const questionId: any =  session.get("question");
         console.log("questionId:", questionId);
 
         // hier haal je de questions op met questionid
-        const Question: Question[] | undefined = await getQuestionInfo(questionId);
+        const Question: Question[] | undefined = await getQuestions();
         console.log("retrieved question:", Question);
 
         // hier worden de questions in de website gezien dus de element pakken van html
-        if (Question) {
-            const questionInfo: any = document.getElementById("questionInfo");
-            console.log("Question Info Element:", questionInfo);
-           
-            if (questionInfo) {
-                const questionHTML: any =
+        if (Question && Question.length > 0) {
+            const questionsContainer: HTMLElement | null = document.getElementById("questionInfo");
+            // loop door de array met questions
 
-                    `<h2>questions</h2> 
-                    <p>Question: ${Question.length > 0 ? Question[0].question : "No question available"}</p>
-                    <p>Date: ${Question.length > 0 ? Question[0].questionDate : "No date available"}</p>`;
 
-                questionInfo.innerHTML = questionHTML;
+            for (let i: number = 0; i < Question.length; i++) {
+                const question: Question = {
+                    questionId: Question[i]["questionId"],
+                    question: Question[i]["question"],
+                    questionSnippet: Question[i]["questionSnippet"],
+                    questionDate: Question[i]["questionDate"],
+                };
 
-                questionInfo.style.cursor = "pointer";
-                questionInfo.addEventListener("click", async () => {
-                    console.log("div clicked");
+                const questionInfo: any = await getQuestionInfo(Question[i].questionId);
+                console.log("Question Info Element:", questionInfo);
 
-                    const allQuestions: Question[] | undefined = await getQuestionInfo(questionId);
-                    console.log("All questions:", allQuestions);
-
-                    // Process 'allQuestions' to display them in HTML as needed
-                    if (allQuestions) {
-                        // Loop through 'allQuestions' and display them in HTML
-                        allQuestions.forEach((q) => {
-                            // Generate HTML to display 'q' and add it to the page
-                            // Example: Create <div> or <p> elements and append them to 'questionInfo'
-
-                        });
-                    } else {
-                        console.error("No questions retrieved");
+                if (questionInfo) {
+                    const questionsContainer: HTMLElement | null = document.getElementById("questionInfo");
+                       
+                    if (questionsContainer) {
+                        const questionHTML: string= 
+                        `<div class="question">
+                        <h2>Question ${i + 1}</h2>
+                        <p>Question: ${Question[i].question}</p>
+                        <p>Date: ${Question[i].questionDate}</p>
+                    </div>
+                `;
+                    
+                        questionsContainer.innerHTML += questionHTML;
                     }
-                });
+                    
 
-            } else {
-                console.error("element with id question info not found");
+                } else {
+                    console.error("No questions retrieved");
+                }
+
+
+
             }
 
-        } else {
-            console.error("no data retrieved");
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
     }
-}
 
+}
 
 function truncateString(str: string, maxLength: number): string {
     if (str.length > maxLength) {
@@ -81,6 +82,13 @@ interface Question {
     questionSnippet: string;
     questionDate: number;
 
+}
+
+async function getQuestions(): Promise<Question[] | undefined> {
+
+    const data: Array<any> = await api.queryDatabase("SELECT * FROM question") as Array<any>;
+
+    return data;
 }
 
 // hier haalt het de question info op van de database
@@ -130,6 +138,4 @@ async function getQuestionInfo(questionId: number): Promise<Question[] | undefin
 
 // het doet de insert functie
 insert();
-
-
 
