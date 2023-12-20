@@ -20,8 +20,10 @@ function setup(): void {
                 // Sla de gebruikersgegevens op in een sessie
                 session.set("user", data[0].id);
 
+                // window.location.href ="profile.html";
+
                 // Stuur de gebruiker door naar de homepagina
-                url.redirect("/index.html");
+                url.redirect("/profile.html");
             } else {
                 // Als de gebruiker niet bestaat, geef melding aan gebruiker door in de css (bootstrap) de display op block te zetten
                 document.getElementsByClassName("alert-danger")[0].setAttribute("style", "display: block");
