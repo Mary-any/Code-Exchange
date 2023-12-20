@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/homepage.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="read">
+        <div class="header">
+            <h1>web</h1>
+        </div>
+        <div class="navbar">
+            <a href="homepage.html">Home</a>
+            <a href="homepage.html">Questions</a>
+            <a href="">Profile</a>
+            <a href="faq.html">FAQ</a>
+            <a href="login.html" class="right">Login</a>
+            <a href="register.html" class="right">Register</a>
+        </div>
+
+        <div class="row">
+            <div class="side"></div>
+            <div class="main">
+                <div>
+                    <form id="combinedForm">
+                        <label for="questionTextarea">Enter question:</label>
+                        <textarea id="questionTextarea" name="questionTextarea" rows="4" cols="50"></textarea>
+                        <br>
+                        <label for="codeTextarea">Enter Code snippet</label>
+                        <textarea id="codeTextarea" name="codeTextarea" rows="4" cols="50"></textarea>
+                        <br>
+                        <label for="dropdown">Select a level of expertise:</label>
+                        <select id="dropdown" name="dropdown">
+                            <option value="master">master</option>
+                            <option value="experienced">experienced</option>
+                            <option value="novice">novice</option>
+                        </select>
+                        <br>
+                        <label for="datetimeInput">Select a date:</label>
+                        <label for="datetimeInput">Select date and time:</label>
+                        <input type="datetime-local" id="datetimeInput" name="datetimeInput">
+                        <br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h2>footer</h2>
+        </div>
+    </div>
+    <script src="/src/maak.ts" type="module"></script>
+</body>
+
+</html>
