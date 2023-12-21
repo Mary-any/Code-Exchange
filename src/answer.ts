@@ -1,5 +1,6 @@
 import "./config";
 import { api, session } from "@hboictcloud/api";
+import { User } from "./models/user";
 
 // answer.ts
 
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const answerAcceptedElement: HTMLInputElement | null = document.getElementById("answerAccepted") as HTMLInputElement | null;
         const answerVotesElement: HTMLInputElement | null = document.getElementById("answerVotes") as HTMLInputElement | null;
 
+
         if ( !answerAcceptedElement || !answerDateElement ||  !answerVotesElement) {
             console.error("One or more hidden fields not found!");
             return;
@@ -27,7 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // query om met de ID de username te halen uit de database hint: use WHERE
         const userId: string = session.get("user");
-        
+
+        // const queryQuestion: string = "Select answerId From 'anwer' WHERE 'questionId'";
+        // const Question: any = await api.queryDatabase(queryQuestion, userId);
+        // const questionId: string = Question[0].answerId;
       
         const answerDate: string = answerDateElement.value;
         // const answerAccepted: string = answerAcceptedElement.value;
@@ -62,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Api datbase
 
         const query: string = "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes) VALUES (?, ?, ?, ?, ?, ?)";
-        api.queryDatabase(query,userId, questionId, answerText, answerDate, answerAccepted, answerVotes);
+        api.queryDatabase(query, userId, answerText, answerDate, answerAccepted, answerVotes);
         console.log("Answer has been submitted:",);
     }
 
