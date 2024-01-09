@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Q&A Platform</title>
+    <link rel="stylesheet" href="/assets/css/vraag.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/homepage.html">Home</a>
+            <a href="#">Questions</a>
+            <a href="#">About</a>
+        </nav>
+        <h1>Q&A Platform</h1>
+    </header>
+
+    <main>
+        <section id="questionForm">
+            <h2>Ask a Question</h2>
+            <form id="questionSubmitForm">
+                <label for="questionText">Your Question:</label>
+                <textarea id="questionText" placeholder="Enter your question" required></textarea>
+
+                <!-- Maak questionSnippet en questionId onzichtbaar -->
+                <label for="questionSnippet" style="display: none;">Question Snippet:</label>
+                <input type="text" id="questionSnippet" name="questionSnippet" value="YourSnippet" readonly style="display: none;">
+
+                <label for="questionDate">Question Date:</label>
+                <input type="text" id="questionDate" name="questionDate" readonly>
+
+                <label for="questionId" style="display: none;">Question ID:</label>
+                <input type="text" id="questionId" name="questionId" value="YourQuestionId" readonly style="display: none;">
+
+                <button id="submitQuestionButton">Submit Question</button>
+            </form>
+        </section>
+
+        <section id="questions">
+            <h2>Latest Questions</h2>
+            <ul id="questionsList"><!-- Questions will be added here --></ul>
+        </section>
+    </main>
+
+    <script type="module" src="src/vraag.ts" defer></script>
+</body>
+</html>

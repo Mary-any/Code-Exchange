@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `pb2b2324_zoowaakoopii18_`.`question` (
   `questionId` INT NOT NULL AUTO_INCREMENT,
   `question` VARCHAR(500) NOT NULL,
   `questionSnippet` VARCHAR(200) NOT NULL,
-  `questionDate` DATETIME NOT NULL,
+  `questionDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP (6),
   `user_Id` INT NOT NULL,
   PRIMARY KEY (`questionId`, `user_Id`),
   INDEX `fk_question_user_idx` (`user_Id` ASC) VISIBLE,

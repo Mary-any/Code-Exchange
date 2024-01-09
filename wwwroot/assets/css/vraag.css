@@ -1,0 +1,86 @@
+/* question.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+    padding: 1em 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+#questionForm {
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#questionSubmitForm {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 10px;
+}
+
+textarea,
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#questions {
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+#questionsList {
+    list-style: none;
+    padding: 0;
+}
+
+
+#questionDate {
+    color: black; /* Dezelfde kleur als voor answerDate */
+    font-size: 14px; /* Dezelfde lettergrootte als voor answerDate */
+    width: 40%; /* Pas de breedte aan naar wens */
+    padding: 5px; /* Pas het kussen (padding) aan naar wens */
+    /* Voeg andere stijleigenschappen toe indien nodig */
+}
+
+
+/* Add more styles as needed */

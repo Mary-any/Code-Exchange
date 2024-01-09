@@ -27,6 +27,7 @@
         <section id="answerForm">
             <h2>Provide an Answer</h2>
             <form id="answerSubmitForm">
+                
                 <label for="answerText">Your Answer:</label>
                 <textarea id="answerText" placeholder="Enter your answer" required></textarea>
 
@@ -53,20 +54,20 @@
             
 
             <ul id="answersList"><!-- Answers will be added here --></ul>
-            <label for="answerDate">answerDate Date:</label>
-            <input type="text" id="answerDate" name="answerDate" readonly>
+            <!-- <label for="answerDate">answerDate Date:</label>
+            <input type="text" id="answerDate" name="answerDate" readonly> -->
             <input type="number" id="answerVotes" name="answerVotes" min="0" value="0">
 
 
            <!-- Checkbox -->
-
-<form id="answerAccepted">
-    <input type="checkbox" id="Yes" name="checkboxYes" value="check1">
-    <label for="checkboxYes">Yes</label>
-
-    <input type="checkbox" id="No" name="checkboxNo" value="check2">
-    <label for="checkboxNo">No</label>
-</form>
+           <form id="answerAccepted">
+            <input type="checkbox" id="checkboxYes" name="checkboxYes" value="check1">
+            <label for="checkboxYes">Yes</label>
+        
+            <input type="checkbox" id="checkboxNo" name="checkboxNo" value="check2">
+            <label for="checkboxNo">No</label>
+        </form>
+        
 
 
         </section>
