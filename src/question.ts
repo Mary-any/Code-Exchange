@@ -26,6 +26,7 @@ async function insert(): Promise<void> {
 
             for (let i: number = 0; i < Question.length; i++) {
                 const question: Question = {
+                    userId: Question[i]["userId"],
                     questionId: Question[i]["questionId"],
                     question: Question[i]["question"],
                     questionSnippet: Question[i]["questionSnippet"],
@@ -77,6 +78,7 @@ function truncateString(str: string, maxLength: number): string {
 
 // geeft value aan een question
 interface Question {
+    userId: number
     questionId: number;
     question: string;
     questionSnippet: string;
@@ -107,6 +109,7 @@ async function getQuestionInfo(questionId: number): Promise<Question[] | undefin
 
             for (let i: number = 0; i < data.length; i++) {
                 const formattedQuestion: Question = {
+                    userId: data [i] ["userId"],
                     questionId: data[i]["questionId"],
                     question: data[i]["question"],
                     questionSnippet: data[i]["questionSnippet"],
