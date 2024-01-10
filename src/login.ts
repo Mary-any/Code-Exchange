@@ -18,7 +18,12 @@ function setup(): void {
             if (data.length > 0) {
                 // Maak user object aan met de waarden uit de database
                 // Sla de gebruikersgegevens op in een sessie
-                session.set("user", data[0].UserId);
+                await session.set("user", data[0] .userId);
+
+                console.log(
+                    session.get("user")  
+                );
+                
 
 
                 // Stuur de gebruiker door naar de homepagina

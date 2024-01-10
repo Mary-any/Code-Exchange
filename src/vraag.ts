@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const userId: string = session.get("user");
+        console.log (userId);
 
         const queryUser: string = "SELECT username, firstname FROM `user` WHERE `id`= ?";
         
@@ -48,8 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
         questionSnippetElement.value = "";
 
         // Add the question to the database
-        const query: string = "INSERT INTO question (userId, question, questionSnippet, questionDate) VALUES (?, ?, ?, ?)";
-        api.queryDatabase(query, userId, questionText, questionSnippet, questionDate);
+        const query: string = "INSERT INTO question (userId, question, questionDate) VALUES ( ?, ?, ?)";
+        api.queryDatabase(query, userId, questionText, questionDate);
         console.log("Question has been submitted:", questionText);
     }
 
@@ -60,24 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("submitButton not found!");
     }
 });
-
-// Date and time
-
-// function setQuestionDate(): void {
-//     const today: Date = new Date();
-//     const formattedDate: string = today.toISOString().slice(0, 19).replace("T", " ");
-//     const questionDateInput: HTMLInputElement | null = document.getElementById("questionDate") as HTMLInputElement;
-
-//     if (questionDateInput) {
-//         questionDateInput.value = formattedDate;
-//     }
-// }
-
-// const questionDateElement: HTMLElement | null = document.getElementById("questionDate");
-
-// if (questionDateElement) {
-//     questionDateElement.addEventListener("click", setQuestionDate);
-// }
 
 function setQuestionDate(): void {
     const today: Date = new Date();

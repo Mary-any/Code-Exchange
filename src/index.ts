@@ -67,6 +67,7 @@ async function getUserInfo(userid: number): Promise<User | undefined> {
 function logout(): void {
     // Verwijder de sessies
     session.remove("user");
+    session.clear();
 
     // Stuur de gebruiker door naar de login pagina
     url.redirect("login.html");
