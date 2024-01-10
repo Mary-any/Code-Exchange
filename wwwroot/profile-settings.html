@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Settings</title>
   
-  <!-- Style -->
+  <! Style -->
   <style>
-
     body {
       font-family: Arial, sans-serif;
       background-color: #333;
@@ -60,7 +59,6 @@
       font-size: 16px;
       margin-top: 10px;
     }
-
   </style>
 </head>
 <body>
@@ -75,18 +73,33 @@
   </div>
 
   <!-- Script -->
-
   <script>
-    function deleteAccount() {
-      // You can add your delete account logic here
-      alert("Account deleted successfully!");
-    }
-
     function previewImage(input) {
-      // You can add logic to preview the selected image if needed
+     
       alert("Profile picture changed!");
+      redirectToProfile(); 
     }
-  </script>
 
+    function deleteAccount() {
+      var confirmDelete = confirm("Weet je zeker dat je je account wilt verwijderen?");
+
+      if (confirmDelete) {
+        
+        alert("Account deleted successfully!");
+        redirectToHome(); 
+      }
+    }
+
+    function redirectToProfile() {
+     
+      window.location.href = "profile.html";
+    }
+
+    function redirectToHome() {
+      
+      window.location.href = "profile.html";
+    }
+    
+  </script>
 </body>
 </html>

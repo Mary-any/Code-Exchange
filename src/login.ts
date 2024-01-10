@@ -18,10 +18,11 @@ function setup(): void {
             if (data.length > 0) {
                 // Maak user object aan met de waarden uit de database
                 // Sla de gebruikersgegevens op in een sessie
-                session.set("user", data[0].id);
+                session.set("user", data[0].UserId);
+
 
                 // Stuur de gebruiker door naar de homepagina
-                url.redirect("/index.html");
+                url.redirect("/profile.html");
             } else {
                 // Als de gebruiker niet bestaat, geef melding aan gebruiker door in de css (bootstrap) de display op block te zetten
                 document.getElementsByClassName("alert-danger")[0].setAttribute("style", "display: block");
@@ -47,7 +48,7 @@ async function loginFromDatabase(username: string, password: string): Promise<Ar
     // proberen de data op te halen uit de database
     try {
         const data: any = await api.queryDatabase(
-            "SELECT id FROM user WHERE username = ? AND password = ?",
+            "SELECT userId FROM user WHERE username = ? AND password = ?",
             username,
             password
         );
