@@ -1,17 +1,29 @@
 import "./config";
 import { api, session } from "@hboictcloud/api";
 
-
 console.log("script zit te werken");
 
-// functie om data in de html te zetten
+async function getUserById(userId: number): Promise<string | undefined> {
+    try {
+        const userData: any = await api.queryDatabase("SELECT username FROM user WHERE userId = ?", [userId]);
+        if (userData && userData.length > 0) {
+            return userData[0].username;
+        } else {
+            console.warn("No user found for userId:", userId);
+            return undefined;
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        return undefined;
+    }
+}
 
 async function insert(): Promise<void> {
     try {
         console.log("inside insert...");
 
         // hier haal ik de question id in de sessie
-        const questionId: any =  session.get("question");
+        const questionId: any = session.get("question");
         console.log("questionId:", questionId);
 
         // hier haal je de questions op met questionid
@@ -19,12 +31,12 @@ async function insert(): Promise<void> {
         console.log("retrieved question:", Question);
 
         // hier worden de questions in de website gezien dus de element pakken van html
-        if (Question && Question.length > 0) {
-            const questionsContainer: HTMLElement | null = document.getElementById("questionInfo");
-            // loop door de array met questions
-
-
+        const questionsContainer: HTMLElement | null = document.getElementById("questionInfo");
+        if (Question && Question.length > 0 && questionsContainer) {
             for (let i: number = 0; i < Question.length; i++) {
+                const questionDiv: HTMLDivElement = document.createElement("div");
+                questionDiv.classList.add("question-container");
+
                 const question: Question = {
                     userId: Question[i]["userId"],
                     questionId: Question[i]["questionId"],
@@ -33,46 +45,36 @@ async function insert(): Promise<void> {
                     questionDate: Question[i]["questionDate"],
                 };
 
+                const username: string | undefined = await getUserById(question.userId);
                 const questionInfo: any = await getQuestionInfo(Question[i].questionId);
                 console.log("Question Info Element:", questionInfo);
 
-                if (questionInfo) {
-                    const questionsContainer: HTMLElement | null = document.getElementById("questionInfo");
-                       
-                    if (questionsContainer) {
-                        const questionHTML: string= 
+                if (questionInfo && username) {
+                    const questionHTML: string =
                         `<div class="question">
-                        <h2>Question ${i + 1}</h2>
-                        <p>Question: ${Question[i].question}</p>
-                        <p>Date: ${Question[i].questionDate}</p>
-                    </div>
-                `;
-                    
-                        questionsContainer.innerHTML += questionHTML;
-                    }
-                    
+                            <h2>Question ${i + 1}</h2>
+                            <p>User: ${username}</p>
+                            <p>Question: ${Question[i].question}</p>
+                            <p>Date: ${Question[i].questionDate}</p>
+                        </div>`;
+
+                  
+                    questionsContainer.innerHTML += questionHTML;
+                    questionsContainer.appendChild(questionDiv);
+
 
                 } else {
                     console.error("No questions retrieved");
                 }
-
-
-
             }
-
         }
     } catch (error: any) {
         console.error(error);
     }
-
 }
 
-function truncateString(str: string, maxLength: number): string {
-    if (str.length > maxLength) {
-        return str.substring(0, maxLength) + "..."; // Append ellipsis if truncated
-    }
-    return str;
-}
+
+
 
 
 
@@ -109,7 +111,7 @@ async function getQuestionInfo(questionId: number): Promise<Question[] | undefin
 
             for (let i: number = 0; i < data.length; i++) {
                 const formattedQuestion: Question = {
-                    userId: data [i] ["userId"],
+                    userId: data[i]["userId"],
                     questionId: data[i]["questionId"],
                     question: data[i]["question"],
                     questionSnippet: data[i]["questionSnippet"],
@@ -141,4 +143,7 @@ async function getQuestionInfo(questionId: number): Promise<Question[] | undefin
 
 // het doet de insert functie
 insert();
+
+
+
 
