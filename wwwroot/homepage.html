@@ -8,32 +8,34 @@
 </head>
 <body>
     <div id="read">
-    <div class="header">
+    <header class="header">
         <h1>web</h1>
-    </div>
-   <div class="navbar">
+    </header>
+   <nav class="navbar">
     <a href="login.html" class="right">Login</a>
     <a href="register.html" class="right">Register</a>
-   </div>
+   </nav>
     <div class="row">
-        <div class="side">
+        <aside class="side">
         <a href="homepage.html">Home</a>
         <a href="homepage.html">Questions</a>
         <a href="/profile.html">Profile</a>
         <a href="faq.html">FAQ</a>
-        </div>
-        <div class="main">
+        </aside>
+        <main class="main">
             <input type="text" placeholder="Search.." name="search">
             <button type="submit">Search</button>
             <h2>Questions</h2>
             <div id="questionInfo" class="question-list"></div>
-        </div>
+        </main>
     </div>
 
-    <div class="footer">
+    <footer class="footer">
         <h2>footer</h2>
-    </div>
+    </footer>
 </div>
-    <script src="/src/question.ts" type="module"></script>
+
+<script src="/src/question.ts" type="module"></script>
+<script src="/src/speak.ts" type="module"></script>
 </body>
 </html>

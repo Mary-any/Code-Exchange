@@ -32,40 +32,57 @@ async function insert(): Promise<void> {
 
         // hier worden de questions in de website gezien dus de element pakken van html
         const questionsContainer: HTMLElement | null = document.getElementById("questionInfo");
-        if (Question && Question.length > 0 && questionsContainer) {
-            for (let i: number = 0; i < Question.length; i++) {
-                const questionDiv: HTMLDivElement = document.createElement("div");
-                questionDiv.classList.add("question-container");
 
-                const question: Question = {
-                    userId: Question[i]["userId"],
-                    questionId: Question[i]["questionId"],
-                    question: Question[i]["question"],
-                    questionSnippet: Question[i]["questionSnippet"],
-                    questionDate: Question[i]["questionDate"],
-                };
+        if (questionsContainer) {
+            const Question: Question[] | undefined = await getQuestions();
 
-                const username: string | undefined = await getUserById(question.userId);
-                const questionInfo: any = await getQuestionInfo(Question[i].questionId);
-                console.log("Question Info Element:", questionInfo);
+            if (Question && Question.length > 0 && questionsContainer) {
+                // ...
 
-                if (questionInfo && username) {
-                    const questionHTML: string =
-                        `<div class="question">
-                            <h2>Question ${i + 1}</h2>
-                            <p>User: ${username}</p>
-                            <p>Question: ${Question[i].question}</p>
-                            <p>Date: ${Question[i].questionDate}</p>
-                        </div>`;
+                for (let i: number = 0; i < Question.length; i++) {
+                    const questionDiv: HTMLDivElement = document.createElement("div");
+                    questionDiv.classList.add("question-container");
 
-                  
-                    questionsContainer.innerHTML += questionHTML;
-                    questionsContainer.appendChild(questionDiv);
+                    const question: Question = {
+                        userId: Question[i]["userId"],
+                        questionId: Question[i]["questionId"],
+                        question: Question[i]["question"],
+                        questionSnippet: Question[i]["questionSnippet"],
+                        questionDate: Question[i]["questionDate"],
+                    };
 
+                    const username: string | undefined = await getUserById(question.userId);
+                    const questionInfo: any = await getQuestionInfo(Question[i].questionId);
+                    console.log("Question Info Element:", questionInfo);
 
-                } else {
-                    console.error("No questions retrieved");
+                    if (questionInfo && username) {
+                        const questionHTML: string =
+                            `<div class="question">
+                <h2>Question ${i + 1}</h2>
+                <p>User: ${username}</p>
+                <p>Question: ${Question[i].question}</p>
+                <p>Date: ${Question[i].questionDate}</p>
+            </div>`;
+
+                        questionDiv.innerHTML = questionHTML;
+
+                        // Add click event listener to each question
+                        questionDiv.addEventListener("click", () => {
+                            // Set session data for the clicked question
+                            session.set("questionId", Question[i].questionId);
+                            // Redirect to answer.html
+                            window.location.href = `/answer.html?id=${Question[i].questionId}`;
+                        });
+
+                        // Append the questionDiv to questionsContainer after adding the click event listener
+                        questionsContainer.appendChild(questionDiv);
+                    } else {
+                        console.error("No questions retrieved");
+                    }
                 }
+
+                // ...
+
             }
         }
     } catch (error: any) {
