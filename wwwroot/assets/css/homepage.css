@@ -48,12 +48,25 @@
   flex: 30%;
   background-color: gray;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .main {
   flex: 70%;
   background-color: white;
   padding: 20px;
+}
+
+.side a {
+  color: black; /* Set the link color to black */
+  text-decoration: none;
+  font-size: 20px; 
+  margin-bottom: 10px;
+}
+
+.side a:hover {
+  color: #2a8e23; /* Change link color on hover */
 }
 
 @media screen and (max-width: 700px) {
@@ -99,3 +112,6 @@ transition: background-color 0.3s ease;
   background: #1abc9c;
 }
 
+.highlight {
+  border: 2px solid blue;
+}
