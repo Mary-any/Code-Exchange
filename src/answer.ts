@@ -47,78 +47,84 @@ async function submitAnswer(event: Event): Promise<void> {
 
     console.log("Raw userId from session:", userId);
 
-    if (userId && userId.trim() !== "" && !isNaN(Number(userId))) {
-        const numericUserId: number = parseInt(userId, 10);
+    // Check if userId is a non-empty string and can be parsed as a number
+    if (userId) {
+        const trimmedUserId: string = userId.trim(); 
+        console.log("trimmedUserId:", trimmedUserId); 
+        const isNumeric: boolean = !isNaN(Number(trimmedUserId));  
+        console.log("isNumeric:", isNumeric);
 
-        console.log("userId: (numeric):", userId);
-        console.log("questionId:", questionId);
+        if (trimmedUserId !== "" && isNumeric) {
+            const numericUserId: number = Number(trimmedUserId);
+            console.log("userId (numeric):", numericUserId);
+            console.log("questionId:", questionId);
 
-        // Controleer of userId en questionId aanwezig zijn
-        if (!userId || !questionId) {
-            console.error("userId or questionId not found in session!");
-            return;
-        }
-
-
-
-        // Haal antwoorddatum en stemmen op
-        const answerDate: string = answerDateElement.value;
-        const answerVotes: string = answerVotesElement.value;
-
-        // Stel antwoord geaccepteerd in op false
-        const answerAccepted: boolean = false;
-
-        // Haal de checkbox-elementen op
-        const checkboxYes: HTMLInputElement | null = document.getElementById("checkboxYes") as HTMLInputElement | null;
-        const checkboxNo: HTMLInputElement | null = document.getElementById("checkboxNo") as HTMLInputElement | null;
-
-        if (!checkboxYes || !checkboxNo) {
-            console.error("One or more checkbox elements not found!");
-            return;
-        }
-
-        // Maak een object met het formuliermodel op basis van de checkbox-statussen
-        const formData: FormModel = {
-            checkboxYes: checkboxYes.checked,
-            checkboxNo: checkboxNo.checked,
-        };
-
-        console.log(formData);
-
-        // Log de ingediende antwoordinformatie
-        console.log("Answer has been submitted:", {
-            userId,
-            questionId,
-            answerText,
-            answerDate,
-            answerAccepted,
-            answerVotes,
-        });
-
-        // Stuur het antwoord naar de database
-        try {
-            const query: string = "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes) VALUES (?, ?, ?, ?, ?, ?)";
-            await api.queryDatabase(query, userId, questionId, answerText, answerDate, answerAccepted, answerVotes);
-            console.log("Answer successfully inserted into the database");
-
-            // Optionally, update the UI without refreshing the page
-            const answersList: HTMLElement | null = document.getElementById("answersList");
-            if (answersList) {
-                const answerParagraph: HTMLParagraphElement = document.createElement("p");
-                answerParagraph.textContent = answerText;
-
-                const listItem: HTMLLIElement = document.createElement("li");
-                listItem.appendChild(answerParagraph);
-                answersList.appendChild(listItem);
+            // Controleer of userId en questionId aanwezig zijn
+            if (!userId || !questionId) {
+                console.error("userId or questionId not found in session!");
+                return;
             }
-        } catch (error) {
-            console.error("Error inserting answer into the database:", error);
+
+    
+            // Haal antwoorddatum en stemmen op
+            const answerDate: string = answerDateElement.value;
+            const answerVotes: string = answerVotesElement.value;
+
+            // Stel antwoord geaccepteerd in op false
+            const answerAccepted: boolean = false;
+
+            // Haal de checkbox-elementen op
+            const checkboxYes: HTMLInputElement | null = document.getElementById("checkboxYes") as HTMLInputElement | null;
+            const checkboxNo: HTMLInputElement | null = document.getElementById("checkboxNo") as HTMLInputElement | null;
+
+            if (!checkboxYes || !checkboxNo) {
+                console.error("One or more checkbox elements not found!");
+                return;
+            }
+
+            // Maak een object met het formuliermodel op basis van de checkbox-statussen
+            const formData: FormModel = {
+                checkboxYes: checkboxYes.checked,
+                checkboxNo: checkboxNo.checked,
+            };
+
+            console.log(formData);
+
+            // Log de ingediende antwoordinformatie
+            console.log("Answer has been submitted:", {
+                userId,
+                questionId,
+                answerText,
+                answerDate,
+                answerAccepted,
+                answerVotes,
+            });
+
+            // Stuur het antwoord naar de database
+            try {
+                const query: string = "INSERT INTO answer (answerId, userId, questionId, answer, answerDate, answerAccepted, answerVotes) VALUES (?, ?, ?, ?, ?, ?)";
+                await api.queryDatabase(query, userId, questionId, answerText, answerDate, answerAccepted, answerVotes);
+                console.log("Answer successfully inserted into the database");
+
+                // Optionally, update the UI without refreshing the page
+                const answersList: HTMLElement | null = document.getElementById("answersList");
+                if (answersList) {
+                    const answerParagraph: HTMLParagraphElement = document.createElement("p");
+                    answerParagraph.textContent = answerText;
+
+                    const listItem: HTMLLIElement = document.createElement("li");
+                    listItem.appendChild(answerParagraph);
+                    answersList.appendChild(listItem);
+                }
+            } catch (error) {
+                console.error("Error inserting answer into the database:", error);
+            }
+        } else {
+            console.error("Invalid userId format. Non-empty string required, and must be numeric.");
+            console.log("userId:", userId);
         }
     } else {
-        console.error("Invalid userId format");
-        console.log("userId:", userId);
-       
-        console.log("!isNaN(Number(userId)):", !isNaN(Number(userId)));
+        console.error("userId is null or undefined.");
     }
     // Wis het tekstveld na het indienen
     answerTextElement.value = "";
@@ -131,7 +137,6 @@ if (submitButton) {
 } else {
     console.error("submitButton not found!");
 }
-
 
 // 
 

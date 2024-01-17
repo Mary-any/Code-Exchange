@@ -37,7 +37,7 @@ async function insert(): Promise<void> {
             const Question: Question[] | undefined = await getQuestions();
 
             if (Question && Question.length > 0 && questionsContainer) {
-                // ...
+                
 
                 for (let i: number = 0; i < Question.length; i++) {
                     const questionDiv: HTMLDivElement = document.createElement("div");
@@ -81,7 +81,7 @@ async function insert(): Promise<void> {
                     }
                 }
 
-                // ...
+                
 
             }
         }
