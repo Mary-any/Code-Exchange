@@ -1,84 +1,89 @@
-body, h1, h2, p, ul, li {
-    margin: 0;
-    padding: 0;
-}
-
+/* Algemene stijlen voor het hele document */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
 
-.profile-container {
+/* Stijlen voor de sectie met profielfoto en naam */
+.profile-section {
     display: flex;
-    max-width: 1200px;
-    margin: 20px auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    flex-direction: column;
 }
 
-.profile-sidebar {
-    width: 200px;
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.profile-sidebar img {
-    width: 100%;
-    border-radius: 50%;
-}
-
-.profile-nav {
-    margin-top: 20px;
-}
-
-.profile-nav ul {
-    list-style: none;
+/* Stijlen voor de navigatiebalk */
+.navbar {
+    list-style-type: none;
+    margin: 0;
     padding: 0;
+    width: 25%;
+    background-color: #f1f1f1;
+    position: fixed;
+    justify-content: left;
+    height: 100vh;
+    overflow: auto;
 }
 
-.profile-nav li {
-    margin-bottom: 10px;
-}
-
-.profile-nav a {
-    text-decoration: none;
-    color: #fff;
+li a {
     display: block;
-    padding: 10px;
-    background-color:#4CAF50;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
 }
 
-.profile-nav a:hover {
-    background-color: #45a049;
+li a.active {
+    background-color: #04AA6D;
+    color: white;
 }
 
-.profile-content {
-    flex: 1;
-    padding: 20px;
-    box-sizing: border-box;
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
 }
 
-.profile-content h2 {
-    margin-bottom: 20px;
+/* Stijlen voor de samenvatting-sectie */
+#summary {
+    margin-left: 25%;
+    padding: 1px 16px;
+    height: 1000px;
 }
 
+/* Stijlen voor de profielfoto */
+.profile-picture {
+    /* width: 100px;
+    height: 80; */
+    overflow: hidden;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
 
+/* Stijlen voor de afbeelding binnen de profielfoto */
+.profile-picture img {
+    width: 110px;
+    height: 90px;
+    border-radius: 50%;
+    display: block;
+}
+
+/* Stijlen voor de naam */
+.name {
+    display: block;
+    font-size: 18px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Stijlen voor de samenvattingscontainers */
 .summary-container {
     margin-bottom: 20px;
     padding: 15px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 4px;
+    margin-bottom: 30px;
 }
 
+/* Stijlen voor de kopjes binnen de samenvattingscontainers */
 .summary-container h3 {
     color: #555;
     margin-bottom: 10px;

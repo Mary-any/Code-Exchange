@@ -1,6 +1,7 @@
 import "./config";
 import { api, session } from "@hboictcloud/api";
 import { User } from "./models/user";
+import { Question } from "./question-oop";
 
 document.addEventListener("DOMContentLoaded", () => {
     async function submitQuestion(event: Event): Promise<void> {
@@ -15,18 +16,21 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const userId: string = session.get("user");
-        console.log (userId);
-
-        const queryUser: string = "SELECT username, firstname FROM `user` WHERE `id`= ?";
-        
-        
-
         // const userId: string = session.get("user");
+        // console.log (userId);
+
+        // const queryUser: string = "SELECT username, firstname FROM `user` WHERE `id`= ?";
+        
+        
+
+        const userId: string = session.get("user");
+        console.log(userId);
         
         const questionText: string = questionTextElement.value;
         const questionSnippet: string = questionSnippetElement.value;
         const questionDate: string = questionDateElement.value;
+
+        const vraag: Question = new Question(userId, questionText, questionDate);
 
         // Add the question to the list (for demonstration purposes)
         const questionsList: HTMLElement | null = document.getElementById("questionsList");
@@ -39,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             questionsList.appendChild(listItem);
         }
 
-        console.log("Question submitted:", questionText);
+        console.log("Question submitted:", vraag.getQuestionText());
         console.log("Additional information:", {
             questionSnippet,
             questionDate,
@@ -47,11 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         questionTextElement.value = "";
         questionSnippetElement.value = "";
+        questionDateElement.value = "";
 
-        // Add the question to the database
-        const query: string = "INSERT INTO question (userId, question, questionDate) VALUES ( ?, ?, ?)";
-        api.queryDatabase(query, userId, questionText, questionDate);
-        console.log("Question has been submitted:", questionText);
+        // add question to the datbase
+        vraag.save();
+
+        
     }
 
     const submitButton: HTMLButtonElement | null = document.getElementById("submitQuestionButton") as HTMLButtonElement | null;

@@ -1,4 +1,5 @@
 import "./config";
+import { User } from "./user-oop";
 import { api, session, url } from "@hboictcloud/api";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -60,10 +61,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Password does not match"); 
             }
 
-            const query: string = "INSERT INTO user (firstname, lastname, username, email, password ) VALUES ( ?, ?, ?, ?, ? )";
-            api.queryDatabase(query, registerFirst, registerLast, registerUsername, registerEmail, registerPassword, );
-            console.log("user has been created", registerFirst, registerLast, registerUsername, registerEmail, registerPassword,);
-        
+            // const query: string = "INSERT INTO user (firstname, lastname, username, email, password ) VALUES ( ?, ?, ?, ?, ? )";
+            // api.queryDatabase(query, registerFirst, registerLast, registerUsername, registerEmail, registerPassword, );
+            // console.log("user has been created", registerFirst, registerLast, registerUsername, registerEmail, registerPassword,);
+            const user: User= new User( null, registerUsername, registerPassword, registerEmail, registerFirst, registerLast);
+
+            user.save();
+
 
             //Clear the fields
             registerUsernameInput.value = "";

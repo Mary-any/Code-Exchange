@@ -1,11 +1,21 @@
 /* question.css */
 
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
+/* Vision-Impaired Styles */
+body.vision-impaired {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+}
+
+/* Header Styles */
 header {
     background-color: #4CAF50;
     color: white;
@@ -13,9 +23,10 @@ header {
     padding: 1em 0;
 }
 
+/* Navigation Styles */
 nav {
     display: flex;
-    justify-content: space-around;
+    justify-content:space-evenly;
     background-color: #333;
     padding: 1em 0;
 }
@@ -25,10 +36,12 @@ nav a {
     text-decoration: none;
 }
 
+/* Main Content Styles */
 main {
     padding: 20px;
 }
 
+/* Question Form Styles */
 #questionForm {
     background-color: #f2f2f2;
     padding: 20px;
@@ -63,6 +76,7 @@ button:hover {
     background-color: #45a049;
 }
 
+/* Questions Section Styles */
 #questions {
     background-color: #f2f2f2;
     padding: 20px;
@@ -73,14 +87,33 @@ button:hover {
     padding: 0;
 }
 
-
+/* Question Date Styles */
 #questionDate {
-    color: black; /* Dezelfde kleur als voor answerDate */
-    font-size: 14px; /* Dezelfde lettergrootte als voor answerDate */
-    width: 40%; /* Pas de breedte aan naar wens */
-    padding: 5px; /* Pas het kussen (padding) aan naar wens */
-    /* Voeg andere stijleigenschappen toe indien nodig */
+    color: black;
+    font-size: 14px;
+    width: 40%;
+    padding: 5px;
 }
 
-
 /* Add more styles as needed */
+/* Button Styles */
+
+#toggleVisionImpaired {
+    position: fixed;
+    top: 20px;
+    left: 20px; /* Change right to left */
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align the button to the left */
+    border-radius: 50%;
+}
+
+/* #toggleVisionImpaired i {
+    margin-left: 5px;
+} */

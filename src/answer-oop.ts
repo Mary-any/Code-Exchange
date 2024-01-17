@@ -4,21 +4,21 @@ export class Answer {
     private userId: string;
     private answerText: string;
 
-    constructor(answerId: string, userId: string, answerText: string) {
+    public constructor(answerId: string, userId: string, answerText: string) {
         this.answerId = answerId;
         this.userId = userId;
         this.answerText = answerText;
     }
 
-    getAnswerId(): string {
+    private getAnswerId(): string {
         return this.answerId;
     }
 
-    getUserId(): string {
+    private getUserId(): string {
         return this.userId;
     }
 
-    getAnswerText(): string {
+    public getAnswerText(): string {
         return this.answerText;
     }
 }
