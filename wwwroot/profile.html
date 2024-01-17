@@ -1,71 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Title -->
-    <title>User Profile</title>
-
-    <!-- CSS file -->
-    <link rel="stylesheet" href="/assets/css/profile.css">
+    <link rel="stylesheet" href="/assets/css/profile.css" />
 </head>
 <body>
-    <div class="profile-container">
-        <div class="profile-sidebar">
-            <div class="profile-pic">
 
-                <!-- Placeholder for profile picture -->
-                <img src="/assets/img/lion.jpg" alt="Profile Picture">
-              
-            </div>
-            <div>
-                <span class="name" id="name"></span>
-            </div>
-            
-            <!-- Navbar -->
-            <nav class="profile-nav">
-                <ul>
-
-                    <li><a href="/homepage.html">Homepage</a></li>
-                    <li><a href="#summary">Summary</a></li>
-                    <li><a href="/vraag.html">Questions</a></li>
-                    <li><a href="/answer.html">Answers</a></li>
-                    <li><a href="#Votes">Votes</a></li>
-                    <li><a href="#favorites">Favorites</a></li>
-                    <li><a href="/profile-settings.html">Profile Settings</a></li>
-                </ul>
-            </nav>
+<nav>
+    <div class="profile-section">
+        <div class="profile-picture" id="profile-picture">
+            <img src="/assets/img/lion.jpg" alt="Profile Picture" id="profile-img">
         </div>
-        <div class="profile-content">
-
-            <div id="summary">
-                <h2>Summary</h2>
-                <div class="summary-container" id="summary-questions">
-                    <h3>Questions</h3>
-                    <p>This user has asked several interesting questions on various topics.</p>
-                </div>
-
-                <div class="summary-container" id="summary-answers">
-                    <h3>Answers</h3>
-                   <p>This user has provided helpful answers to many questions from the community.</p>
-                </div>
-
-                <div class="summary-container" id="summary-responses">
-                    <h3>Votes</h3>
-                     <p>The user actively engages in discussions and provides thoughtful responses.</p>
-                </div>
-
-                <div class="summary-container" id="summary-favorites">
-                    <h3>Favorites</h3>
-                     <p>This user has marked several questions as favorites for quick reference.</p>
-                </div>
-            </div>
-            
-
-        </div>
+       
     </div>
-    <script src="src/profile.ts" type="module"></script>
-    <script src="src/profile-setting.ts" type="module"></script>
+
+    <ul class="navbar">
+        
+        <div>
+            <span class="name" id="name"></span>
+        </div>
+        <br>
+        <li><a class="active" href="/homepage.html">Home</a></li>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="/vraag.html">Questions</a></li>
+        <li><a href="/answer.html">Answers</a></li>
+        <li><a href="#Votes">Votes</a></li>
+        <li><a href="#favorites">Favorites</a></li>
+        <li><a href="/profile-settings.html">Profile Settings</a></li>
+    </ul>
+</nav>
+
+<div id="summary">
+    <h2>Summary</h2>
+    <br>
+    <br>
+
+
+    <!-- Voeg een element toe waarin de vragen worden weergegeven -->
+<div class="summary-container" id="summaryQ">
+    <h3>Questions</h3>
+    <ul id="questionList"></ul>
+</div>
+
+
+    <div class="summary-container" id="summary-answers">
+        <h3>Answers</h3>
+        <p>This user has provided helpful answers to many questions from the community.</p>
+    </div>
+
+    <div class="summary-container" id="summary-responses">
+        <h3>Votes</h3>
+        <p>The user actively engages in discussions and provides thoughtful responses.</p>
+    </div>
+
+    <div class="summary-container" id="summary-favorites">
+        <h3>Favorites</h3>
+        <p>This user has marked several questions as favorites for quick reference.</p>
+    </div>
+</div>
+
+<script type="module" src="src/profile.ts" defer></script>
 </body>
 </html>

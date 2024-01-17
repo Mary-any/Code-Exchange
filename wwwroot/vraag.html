@@ -9,18 +9,21 @@
 
     <!-- CSS file -->
     <link rel="stylesheet" href="/assets/css/vraag.css">
+    <script src="https://kit.fontawesome.com/a7799efdc6.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
+
     <header>
 
         <nav>
             <a href="/homepage.html">Home</a>
             <a href="#">Questions</a>
-            <a href="#">About</a>
+            
 
         </nav>
 
-        <h1>Q&A Platform</h1>
+        <h1>Question Platform</h1>
         
     </header>
 
@@ -29,7 +32,7 @@
             <h2>Ask a Question</h2>
             <form id="questionSubmitForm">
                 <label for="questionText">Your Question:</label>
-                <textarea id="questionText" placeholder="Enter your question" required></textarea>
+                <textarea id="questionText" placeholder="Enter your question" required autofocus></textarea>
 
                 <!-- Maak questionSnippet en questionId onzichtbaar -->
                 <label for="questionSnippet" style="display: none;">Question Snippet:</label>
@@ -51,6 +54,50 @@
         </section>
     </main>
 
+    <button id="toggleVisionImpaired">
+        <i class="fas fa-eye"></i>
+    </button>
+
+    <button id="readPageButton">
+        <i class="fas fa-volume-up"></i>
+    </button>
+    
+
     <script type="module" src="src/vraag.ts" defer></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggleButton = document.getElementById("toggleVisionImpaired");
+            const body = document.body;
+
+            toggleButton.addEventListener("click", () => {
+                body.classList.toggle("vision-impaired");
+            });
+
+            const speak = (text, lang = 'en-US') => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = lang;
+                speechSynthesis.speak(utterance);
+            };
+
+            document.getElementById("submitQuestionButton").addEventListener("click", () => {
+                const questionText = document.getElementById("questionText").value;
+                speak(questionText);
+            });
+
+            document.getElementById("readPageButton").addEventListener("click", () => {
+                // Gather all text content from the page
+                const allText = Array.from(document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, a'))
+                                    .map(element => element.textContent)
+                                    .join(' ');
+
+                // Read the entire page
+                speak(allText);
+            });
+        });
+    </script>
+
+        
+    </script>
 </body>
 </html>

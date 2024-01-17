@@ -9,7 +9,7 @@
 
 body {
     font-family: "Quicksand", sans-serif;
-    background: url(/assets/img/background.jpg) center/cover no-repeat;
+    background: url(/assets/img/achtergrond.jpg) center/cover no-repeat;
     margin: 0;
     padding: 0;
     justify-content: center;
@@ -79,13 +79,13 @@ input {
     top: 50%;
     transform: translateY(-50%);
     right: 10px;
-    color: #ff0095;
+    color: #2a8e23;
     font-size: 18px;
 }
 
 
 button {
-    background-color: #ff0095;
+    background-color: #21830c;
     color: #fff;
     padding: 12px;
     border: none;
@@ -95,7 +95,7 @@ button {
 
 
 button:hover {
-    background-color: #e6008b;
+    background-color: #2a8e23;
 }
 
 
@@ -106,7 +106,7 @@ p {
 
 
 a {
-    color: #ff0095;
+    color: #1abc9c;
     text-decoration: none;
 }
 

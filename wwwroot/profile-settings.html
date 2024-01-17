@@ -77,6 +77,7 @@
     function previewImage(input) {
      
       alert("Profile picture changed!");
+      document.getElementById('profile-img').src = URL.createObjectURL(input.files[0]);
       redirectToProfile(); 
     }
 
