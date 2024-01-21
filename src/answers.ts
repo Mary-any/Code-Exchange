@@ -1,4 +1,3 @@
-
 // Importeer configuraties en modules
 import "./config";
 import { api, session } from "@hboictcloud/api";
@@ -45,6 +44,8 @@ async function submitAnswer(event: Event): Promise<void> {
     // Haal userId en questionId op uit de sessie
     const userId: string | null = session.get("userId");
     const questionId: string | null = session.get("questionId");
+    
+    console.log("User information:", session.get("user"));
 
     console.log("Raw userId from session:", userId);
 
@@ -133,8 +134,6 @@ if (submitButton) {
     console.error("submitButton not found!");
 }
 
-
-// 
 
 
 questionId = new URLSearchParams(window.location.search).get("id");
@@ -261,3 +260,4 @@ function getQuestionDetails(): void {
 // if (answerDateElement) {
 //     answerDateElement.addEventListener("click", setAnswerDate);
 // }
+
