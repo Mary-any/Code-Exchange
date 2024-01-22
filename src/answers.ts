@@ -42,9 +42,9 @@ async function submitAnswer(event: Event): Promise<void> {
     }
 
     // Haal userId en questionId op uit de sessie
-    const userId: string | null = session.get("userId");
+    const userId: string | null = session.get("user")?.id;
     const questionId: string | null = session.get("questionId");
-    
+
     console.log("User information:", session.get("user"));
 
     console.log("Raw userId from session:", userId);
@@ -64,7 +64,7 @@ async function submitAnswer(event: Event): Promise<void> {
 
 
         // Haal antwoorddatum en stemmen op
-        const answerDate: string = answerDateElement.value;
+        const answerDate: string = new Date().toISOString().slice(0, 19).replace("T", " ");
         const answerVotes: string = answerVotesElement.value;
 
         // Stel antwoord geaccepteerd in op false
@@ -78,6 +78,10 @@ async function submitAnswer(event: Event): Promise<void> {
             console.error("One or more checkbox elements not found!");
             return;
         }
+
+        // Haal de optionele answerSnippet op (bijvoorbeeld van een formulier)
+        const answerSnippetElement: HTMLInputElement | null = document.getElementById("answerSnippet") as HTMLInputElement | null;
+        const answerSnippet: string | null = answerSnippetElement ? answerSnippetElement.value : null;
 
         // Maak een object met het formuliermodel op basis van de checkbox-statussen
         const formData: FormModel = {
@@ -95,12 +99,20 @@ async function submitAnswer(event: Event): Promise<void> {
             answerDate,
             answerAccepted,
             answerVotes,
+            answerSnippet,
         });
 
         // Stuur het antwoord naar de database
         try {
-            const query: string = "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes) VALUES (?, ?, ?, ?, ?, ?)";
-            await api.queryDatabase(query, userId, questionId, answerText, answerDate, answerAccepted, answerVotes);
+            const query: string = answerSnippet
+                ? "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes, answerSnippet) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                : "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes) VALUES (?, ?, ?, ?, ?, ?)";
+
+            const queryParams: any[] = answerSnippet
+                ? [numericUserId, questionId, answerText, answerDate, answerAccepted, answerVotes, answerSnippet]
+                : [numericUserId, questionId, answerText, answerDate, answerAccepted, answerVotes];
+
+            await api.queryDatabase(query, userId, questionId, answerText, answerDate, answerAccepted, answerVotes, queryParams);
             console.log("Answer successfully inserted into the database");
 
             // Optionally, update the UI without refreshing the page
@@ -119,7 +131,7 @@ async function submitAnswer(event: Event): Promise<void> {
     } else {
         console.error("Invalid userId format");
         console.log("userId:", userId);
-       
+
         console.log("!isNaN(Number(userId)):", !isNaN(Number(userId)));
     }
     // Wis het tekstveld na het indienen
