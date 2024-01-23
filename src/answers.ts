@@ -1,9 +1,8 @@
-// Importeer configuraties en modules
+// Import configurations and modules
 import "./config";
 import { api, session } from "@hboictcloud/api";
-import { User } from "./models/user";
 
-// Definieer een interface om het formuliermodel te representeren
+// Define an interface to represent the form model
 interface FormModel {
     checkboxYes: boolean;
     checkboxNo: boolean;
@@ -11,108 +10,42 @@ interface FormModel {
 
 console.log("Loaded");
 
+// Get userId from session
+const userId: number | undefined = session.get("user") as number | undefined;
 let questionId: string | null = null;
-let answersList: HTMLElement | null = null;
 
-// Wacht tot het DOM geladen is
-// document.addEventListener("DOMContentLoaded", () => {
-console.log("DOMContentLoaded event triggered");
+// Check if userId is defined before parsing
+if (userId !== undefined) {
+    const numericUserId: number = userId;
 
-// Functie voor het indienen van antwoorden
-async function submitAnswer(event: Event): Promise<void> {
+    console.log("User ID for answer submission:", numericUserId);
 
-    console.log("Submit button clicked");
-    event.preventDefault();
-
-    // Haal het antwoord op uit het tekstveld
-    const answerTextElement: HTMLTextAreaElement | null = document.getElementById("answerText") as HTMLTextAreaElement | null;
-    if (!answerTextElement) {
-        console.error("answerTextElement not found!");
-        return;
-    }
-    const answerText: string = answerTextElement.value;
-
-    // Haal informatie op uit verborgen velden
-    const answerDateElement: HTMLInputElement | null = document.getElementById("answerDate") as HTMLInputElement | null;
-    const answerVotesElement: HTMLInputElement | null = document.getElementById("answerVotes") as HTMLInputElement | null;
-
-    if (!answerDateElement || !answerVotesElement) {
-        console.error("One or more hidden fields not found!");
-        return;
-    }
-
-    // Haal userId en questionId op uit de sessie
-    const userId: string | null = session.get("user")?.id;
-    const questionId: string | null = session.get("questionId");
-
-    console.log("User information:", session.get("user"));
-
-    console.log("Raw userId from session:", userId);
-
-    if (userId && userId.trim() !== "" && !isNaN(Number(userId))) {
-        const numericUserId: number = parseInt(userId, 10);
-
-        console.log("userId: (numeric):", userId);
-        console.log("questionId:", questionId);
-
-        // Controleer of userId en questionId aanwezig zijn
-        if (!userId || !questionId) {
-            console.error("userId or questionId not found in session!");
-            return;
-        }
-
-
-
-        // Haal antwoorddatum en stemmen op
-        const answerDate: string = new Date().toISOString().slice(0, 19).replace("T", " ");
-        const answerVotes: string = answerVotesElement.value;
-
-        // Stel antwoord geaccepteerd in op false
-        const answerAccepted: boolean = false;
-
-        // Haal de checkbox-elementen op
-        const checkboxYes: HTMLInputElement | null = document.getElementById("checkboxYes") as HTMLInputElement | null;
-        const checkboxNo: HTMLInputElement | null = document.getElementById("checkboxNo") as HTMLInputElement | null;
-
-        if (!checkboxYes || !checkboxNo) {
-            console.error("One or more checkbox elements not found!");
-            return;
-        }
-
-        // Haal de optionele answerSnippet op (bijvoorbeeld van een formulier)
-        const answerSnippetElement: HTMLInputElement | null = document.getElementById("answerSnippet") as HTMLInputElement | null;
-        const answerSnippet: string | null = answerSnippetElement ? answerSnippetElement.value : null;
-
-        // Maak een object met het formuliermodel op basis van de checkbox-statussen
-        const formData: FormModel = {
-            checkboxYes: checkboxYes.checked,
-            checkboxNo: checkboxNo.checked,
-        };
-
-        console.log(formData);
-
-        // Log de ingediende antwoordinformatie
-        console.log("Answer has been submitted:", {
-            userId,
-            questionId,
-            answerText,
-            answerDate,
-            answerAccepted,
-            answerVotes,
-            answerSnippet,
-        });
-
-        // Stuur het antwoord naar de database
+    // Ensure userId is present
+    if (!isNaN(numericUserId)) {
         try {
-            const query: string = answerSnippet
-                ? "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes, answerSnippet) VALUES (?, ?, ?, ?, ?, ?, ?)"
-                : "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes) VALUES (?, ?, ?, ?, ?, ?)";
+            // Example declarations (replace these with your actual declarations)
+            let answerSnippet: string | null = null;
+            let answerText: string = "";
+            let answerDate: string = "";
+            let answerAccepted: boolean = false;
+            let answerVotes: string = "";
 
+            // Convert numericUserId to string here
+            const userIdString: string = String(numericUserId);
+
+            // Define query parameters
             const queryParams: any[] = answerSnippet
-                ? [numericUserId, questionId, answerText, answerDate, answerAccepted, answerVotes, answerSnippet]
-                : [numericUserId, questionId, answerText, answerDate, answerAccepted, answerVotes];
+                ? [userIdString, questionId, answerText, answerDate, answerAccepted, answerVotes, answerSnippet]
+                : [userIdString, questionId, answerText, answerDate, answerAccepted, answerVotes];
 
-            await api.queryDatabase(query, userId, questionId, answerText, answerDate, answerAccepted, answerVotes, queryParams);
+            // Insert answer into the database
+            await api.queryDatabase(
+                answerSnippet
+                    ? "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes, answerSnippet) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    : "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes) VALUES (?, ?, ?, ?, ?, ?)",
+                ...queryParams
+            );
+
             console.log("Answer successfully inserted into the database");
 
             // Optionally, update the UI without refreshing the page
@@ -125,26 +58,116 @@ async function submitAnswer(event: Event): Promise<void> {
                 listItem.appendChild(answerParagraph);
                 answersList.appendChild(listItem);
             }
+
+            // Clear the text fields after submission
+            answerText = "";
+            if (answerSnippet !== null) {
+                answerSnippet = "";
+            }
         } catch (error) {
             console.error("Error inserting answer into the database:", error);
         }
     } else {
-        console.error("Invalid userId format");
-        console.log("userId:", userId);
-
-        console.log("!isNaN(Number(userId)):", !isNaN(Number(userId)));
+        console.error("Numeric user ID is NaN. Handle this case appropriately.");
+        // ... (handle the case where userId is not a valid number)
     }
-    // Wis het tekstveld na het indienen
-    answerTextElement.value = "";
+} else {
+    console.error("User ID not found in the session in answers.ts.");
+    // ... (handle the case where userId is not available)
 }
 
-// Voeg een klikgebeurtenis toe aan de knop
+// Wait for the DOM to be loaded
+console.log("DOMContentLoaded event triggered");
+async function submitAnswer(event: Event): Promise<void> {
+    console.log("Submit button clicked");
+    event.preventDefault();
+
+    // Get form elements
+    const answerTextElement: HTMLTextAreaElement | null = document.getElementById("answerText") as HTMLTextAreaElement | null;
+    const answerVotesElement: HTMLInputElement | null = document.getElementById("answerVotes") as HTMLInputElement | null;
+    const checkboxYes: HTMLInputElement | null = document.getElementById("checkboxYes") as HTMLInputElement | null;
+    const checkboxNo: HTMLInputElement | null = document.getElementById("checkboxNo") as HTMLInputElement | null;
+    const answerSnippetElement: HTMLInputElement | null = document.getElementById("answerSnippet") as HTMLInputElement | null;
+
+    // Ensure elements are found
+    if (!answerTextElement || !answerVotesElement || !checkboxYes || !checkboxNo) {
+        console.error("One or more elements not found!");
+        return;
+    }
+
+    // Get values from form elements
+    const answerText: string = answerTextElement.value;
+    const answerVotes: string = answerVotesElement.value;
+    const answerDate: string = new Date().toISOString().slice(0, 19).replace("T", " ");
+    const answerAccepted: boolean = checkboxYes.checked;
+    const answerSnippet: string | null = answerSnippetElement ? answerSnippetElement.value : null;
+
+    // Get user information from session
+    const loggedInUserId: number | undefined = session.get("user");
+    console.log("User ID for answer submission:", loggedInUserId);
+
+    // Ensure userId is present
+    if (loggedInUserId) {
+        // Parse userId as a number
+        const numericUserId: number = loggedInUserId;
+
+        console.log("Type of numericUserId:", typeof numericUserId);
+        console.log("Value of numericUserId:", numericUserId);
+
+        if (isNaN(numericUserId)) {
+            console.error("Numeric user ID is NaN. Handle this case appropriately.");
+            return;
+        }
+
+        try {
+            // Define query parameters
+            const queryParams: any[] = answerSnippet
+                ? [numericUserId, questionId, answerText, answerDate, answerAccepted, answerVotes, answerSnippet]
+                : [numericUserId, questionId, answerText, answerDate, answerAccepted, answerVotes];
+
+            // Insert answer into the database
+            await api.queryDatabase(
+                answerSnippet
+                    ? "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes, answerSnippet) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    : "INSERT INTO answer (userId, questionId, answer, answerDate, answerAccepted, answerVotes) VALUES (?, ?, ?, ?, ?, ?)",
+                ...queryParams
+            );
+
+            console.log("Answer successfully inserted into the database");
+
+            // Optionally, update the UI without refreshing the page
+            const answersList: HTMLElement | null = document.getElementById("answersList");
+            if (answersList) {
+                const answerParagraph: HTMLParagraphElement = document.createElement("p");
+                answerParagraph.textContent = answerText;
+
+                const listItem: HTMLLIElement = document.createElement("li");
+                listItem.appendChild(answerParagraph);
+                answersList.appendChild(listItem);
+            }
+
+            // Clear the text fields after submission
+            answerTextElement.value = "";
+            if (answerSnippetElement) {
+                answerSnippetElement.value = "";
+            }
+        } catch (error) {
+            console.error("Error inserting answer into the database:", error);
+        }
+    } else {
+        console.error("User ID not found in the session in answers.ts.");
+        // ... (handle the case where userId is not available)
+    }
+}
+
+// Add a click event to the button
 const submitButton: HTMLButtonElement | null = document.getElementById("submitAnswerButton") as HTMLButtonElement | null;
 if (submitButton) {
     submitButton.addEventListener("click", submitAnswer);
 } else {
     console.error("submitButton not found!");
 }
+
 
 
 
@@ -194,6 +217,7 @@ questionId = new URLSearchParams(window.location.search).get("id");
 
 
 if (questionId) {
+    console.error("Question ID not found in the URL parameters.");
     try {
         // Use the questionId to fetch the question details from the database
         const questionDetails: any[] = await api.queryDatabase("SELECT * FROM question WHERE questionId = ?", [questionId]) as any[];

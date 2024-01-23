@@ -1,8 +1,9 @@
 import "./config";
-import { api, session } from "@hboictcloud/api";
+import { api, session, url } from "@hboictcloud/api";
 
-console.log("script zit te werken");
+console.log("script is working");
 
+// Function to get user information by ID from the database
 async function getUserById(userId: number): Promise<string | undefined> {
     try {
         const userData: any = await api.queryDatabase("SELECT username FROM user WHERE userId = ?", [userId]);
@@ -18,145 +19,124 @@ async function getUserById(userId: number): Promise<string | undefined> {
     }
 }
 
+// Function to insert questions into the website
 async function insert(): Promise<void> {
     try {
         console.log("inside insert...");
 
-        // hier haal ik de question id in de sessie
-        const questionId: any = session.get("question");
-        console.log("questionId:", questionId);
+        // Get questions from the database
+        const questions: Question[] | undefined = await getQuestions();
+        console.log("Retrieved questions:", questions);
 
-        // hier haal je de questions op met questionid
-        const Question: Question[] | undefined = await getQuestions();
-        console.log("retrieved question:", Question);
-
-        // hier worden de questions in de website gezien dus de element pakken van html
+        // Get the HTML element that will contain the questions
         const questionsContainer: HTMLElement | null = document.getElementById("questionInfo");
 
-        if (questionsContainer) {
-            const Question: Question[] | undefined = await getQuestions();
+        if (questionsContainer && questions && questions.length > 0) {
+            for (let i: number = 0; i < questions.length; i++) {
+                const questionDiv: HTMLDivElement = document.createElement("div");
+                questionDiv.classList.add("question-container");
 
-            if (Question && Question.length > 0 && questionsContainer) {
-                
+                const question: Question = {
+                    userId: questions[i]["userId"],
+                    questionId: questions[i]["questionId"],
+                    question: questions[i]["question"],
+                    questionSnippet: questions[i]["questionSnippet"],
+                    questionDate: questions[i]["questionDate"],
+                };
 
-                for (let i: number = 0; i < Question.length; i++) {
-                    const questionDiv: HTMLDivElement = document.createElement("div");
-                    questionDiv.classList.add("question-container");
+                // Get the username associated with the question's userId
+                const username: string | undefined = await getUserById(question.userId);
 
-                    const question: Question = {
-                        userId: Question[i]["userId"],
-                        questionId: Question[i]["questionId"],
-                        question: Question[i]["question"],
-                        questionSnippet: Question[i]["questionSnippet"],
-                        questionDate: Question[i]["questionDate"],
-                    };
+                if (username) {
+                    const questionHTML: string =
+                        `<div class="question">
+                            <h2>Question ${i + 1}</h2>
+                            <p>User: ${username}</p>
+                            <p>Question: ${question.question}</p>
+                            <p>Date: ${question.questionDate}</p>
+                        </div>`;
 
-                    const username: string | undefined = await getUserById(question.userId);
-                    const questionInfo: any = await getQuestionInfo(Question[i].questionId);
-                    console.log("Question Info Element:", questionInfo);
-
-                    if (questionInfo && username) {
-                        const questionHTML: string =
-                            `<div class="question">
-                <h2>Question ${i + 1}</h2>
-                <p>User: ${username}</p>
-                <p>Question: ${Question[i].question}</p>
-                <p>Date: ${Question[i].questionDate}</p>
-            </div>`;
-
-                        questionDiv.innerHTML = questionHTML;
-
+                    questionDiv.innerHTML = questionHTML;
+                    // Get user information from session
+                    const loggedInUserId: number | undefined = session.get("user");
+                    console.log("User ID from session:", loggedInUserId);
+            
+                    // Check if the logged-in user information is available
+                    if (loggedInUserId) {
+                        console.log("User ID from session:", loggedInUserId);
+            
+                        // Continue with the existing logic
                         // Add click event listener to each question
                         questionDiv.addEventListener("click", () => {
                             // Set session data for the clicked question
-                            session.set("questionId", Question[i].questionId);
+                            session.set("questionId", question.questionId);
                             // Redirect to answer.html
-                            window.location.href = `/answer.html?id=${Question[i].questionId}`;
+                            window.location.href = `/answer.html?id=${question.questionId}`;
                         });
-
+            
                         // Append the questionDiv to questionsContainer after adding the click event listener
                         questionsContainer.appendChild(questionDiv);
                     } else {
-                        console.error("No questions retrieved");
+                        console.error("User information not found in the session.");
                     }
+            
+
+                    console.log("Session after:", session);
+
+                    // Add click event listener to each question
+                    questionDiv.addEventListener("click", () => {
+                        // Set session data for the clicked question
+                        session.set("questionId", question.questionId);
+                        // Redirect to answer.html
+                        window.location.href = `/answer.html?id=${question.questionId}`;
+                    });
+
+                    // Append the questionDiv to questionsContainer after adding the click event listener
+                    questionsContainer.appendChild(questionDiv);
+                } else {
+                    console.error("No username retrieved for userId:", question.userId);
                 }
-
-                
-
             }
+        } else {
+            console.error("No questions retrieved");
         }
     } catch (error: any) {
         console.error(error);
     }
 }
 
+// Call the insert function when the DOM is loaded
+document.addEventListener("DOMContentLoaded", insert);
 
-
-
-
-
-// geeft value aan een question
+// Interface for the Question object
 interface Question {
-    userId: number
+    userId: number;
     questionId: number;
     question: string;
     questionSnippet: string;
     questionDate: number;
-
 }
 
+// Function to get questions from the database
 async function getQuestions(): Promise<Question[] | undefined> {
-
-    const data: Array<any> = await api.queryDatabase("SELECT * FROM question") as Array<any>;
-
-    return data;
-}
-
-// hier haalt het de question info op van de database
-async function getQuestionInfo(questionId: number): Promise<Question[] | undefined> {
     try {
-        console.log("getting question info for questionId:", questionId);
-        // hier vraagt hij de database om de info op te halen met behulp van question id
-        const data: Array<any> = await api.queryDatabase("SELECT * FROM question WHERE questionId  = ?", [questionId]) as Array<any>;
-        console.log("Retrieved data:", data);
-
-
-        if (data.length > 0) {
-            const questions: Question[] = [];
-
-            // alle info in question doen
-
-            for (let i: number = 0; i < data.length; i++) {
-                const formattedQuestion: Question = {
-                    userId: data[i]["userId"],
-                    questionId: data[i]["questionId"],
-                    question: data[i]["question"],
-                    questionSnippet: data[i]["questionSnippet"],
-                    questionDate: data[i]["questionDate"],
-                };
-
-                questions.push(formattedQuestion);
-                //pakt data en doet het in query
-                console.log("formatted question", formattedQuestion);
-
-            }
-            return questions;
-        } else {
-            console.warn("no data found", questionId);
-            return undefined;
-        }
-    }
-
-
-    catch (error) {
-        console.error("database query error", error);
+        const data: Array<any> = await api.queryDatabase("SELECT * FROM question") as Array<any>;
+        return data.map((item: any) => ({
+            userId: item["userId"],
+            questionId: item["questionId"],
+            question: item["question"],
+            questionSnippet: item["questionSnippet"],
+            questionDate: item["questionDate"],
+        }));
+    } catch (error) {
+        console.error("Error fetching questions:", error);
         return undefined;
     }
-
-
-
-
 }
+
+
+
+
 
 // het doet de insert functie
 insert();

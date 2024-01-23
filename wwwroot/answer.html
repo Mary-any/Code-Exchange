@@ -34,7 +34,19 @@
             <form id="answerSubmitForm">
                 <label for="answerText">Your Answer:</label>
                 <textarea id="answerText" placeholder="Enter your answer" required></textarea>
-
+                <section id="answerSnippetForm">
+                    <h2>Provide an Answer Snippet</h2>
+                    <form id="answerSnippetSubmitForm">
+                        <label for="answerSnippetText">Your Answer Snippet:</label>
+                        <textarea id="answerSnippet" placeholder="Enter your answer snippet"></textarea>
+                
+                        <!-- Hidden input fields to store user information -->
+                        <input type="hidden" id="answerSnippetId">
+                        <input type="hidden" id="userId">
+                        <input type="hidden" id="questionId">
+                
+                    </form>
+                </section>
                 <!-- Hidden input fields to store user information -->
                 <input type="hidden" id="answerId">
                 <input type="hidden" id="answerVotes" value="0">
@@ -46,21 +58,8 @@
                 <button id="submitAnswerButton">Submit Answer</button>
             </form>
         </section>
-        
-        <section id="answerSnippetForm">
-            <h2>Provide an Answer Snippet</h2>
-            <form id="answerSnippetSubmitForm">
-                <label for="answerSnippetText">Your Answer Snippet:</label>
-                <textarea id="answerSnippetText" placeholder="Enter your answer snippet"></textarea>
-        
-                <!-- Hidden input fields to store user information -->
-                <input type="hidden" id="answerSnippetId">
-                <input type="hidden" id="userId">
-                <input type="hidden" id="questionId">
-        
-                <button id="submitAnswerSnippetButton">Submit Answer Snippet</button>
-            </form>
-        </section>
+
+     
         
         <section id="answers">
             <h2>Your Answers</h2>
