@@ -1,6 +1,6 @@
 import "./config";
 import { api, session } from "@hboictcloud/api";
-
+// deze niet verwijdern pls
 class Question {
     private userId: number;
     private questionId: number;
