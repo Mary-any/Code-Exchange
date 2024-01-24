@@ -105,8 +105,7 @@ async function insert(): Promise<void> {
     }
 }
 
-// Call the insert function when the DOM is loaded
-document.addEventListener("DOMContentLoaded", insert);
+
 
 // Interface for the Question object
 interface Question {

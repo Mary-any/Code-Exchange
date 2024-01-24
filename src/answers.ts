@@ -99,7 +99,7 @@ async function submitAnswer(event: Event): Promise<void> {
     const answerText: string = answerTextElement.value;
     const answerVotes: string = answerVotesElement.value;
     const answerDate: string = new Date().toISOString().slice(0, 19).replace("T", " ");
-    const answerAccepted: boolean = checkboxYes.checked;
+    const answerAccepted: string = checkboxYes.checked ? "yes" : "no";
     const answerSnippet: string | null = answerSnippetElement ? answerSnippetElement.value : null;
 
     // Get user information from session
