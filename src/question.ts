@@ -119,7 +119,7 @@ interface Question {
 // Function to get questions from the database
 async function getQuestions(): Promise<Question[] | undefined> {
     try {
-        const data: Array<any> = await api.queryDatabase("SELECT * FROM question") as Array<any>;
+        const data: Array<any> = await api.queryDatabase("SELECT * FROM question ORDER BY questionDate DESC") as Array<any>;
         return data.map((item: any) => ({
             userId: item["userId"],
             questionId: item["questionId"],
@@ -132,6 +132,7 @@ async function getQuestions(): Promise<Question[] | undefined> {
         return undefined;
     }
 }
+
 
 
 
