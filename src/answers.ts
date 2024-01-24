@@ -78,6 +78,7 @@ if (userId !== undefined) {
 
 // Wait for the DOM to be loaded
 console.log("DOMContentLoaded event triggered");
+
 async function submitAnswer(event: Event): Promise<void> {
     console.log("Submit button clicked");
     event.preventDefault();
@@ -163,12 +164,21 @@ async function submitAnswer(event: Event): Promise<void> {
 // Add a click event to the button
 const submitButton: HTMLButtonElement | null = document.getElementById("submitAnswerButton") as HTMLButtonElement | null;
 if (submitButton) {
-    submitButton.addEventListener("click", submitAnswer);
+    submitButton.addEventListener("click", confirmSubmitAnswer);
 } else {
     console.error("submitButton not found!");
 }
 
+// Function to confirm before submitting the answer
+function confirmSubmitAnswer(event: Event): void {
+    // Show a confirmation dialog
+    const isConfirmed: boolean = window.confirm("Are you sure you want to submit this answer?");
 
+    // If the user confirms, proceed with submitting the answer
+    if (isConfirmed) {
+        submitAnswer(event);
+    }
+}
 
 
 questionId = new URLSearchParams(window.location.search).get("id");
