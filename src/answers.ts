@@ -169,6 +169,8 @@ if (submitButton) {
     console.error("submitButton not found!");
 }
 
+
+
 // Function to confirm before submitting the answer
 function confirmSubmitAnswer(event: Event): void {
     // Show a confirmation dialog
@@ -222,8 +224,10 @@ form.addEventListener("submit", (event) => {
 });
 
 
+
 // Get questionId from URL parameters
 questionId = new URLSearchParams(window.location.search).get("id");
+console.log("Question ID from URL:", questionId);
 
 
 if (questionId) {
@@ -231,53 +235,103 @@ if (questionId) {
     try {
         // Use the questionId to fetch the question details from the database
         const questionDetails: any[] = await api.queryDatabase("SELECT * FROM question WHERE questionId = ?", [questionId]) as any[];
+        console.log("Question details from the database:", questionDetails);
 
         // Use the questionId to fetch associated answers
         const answers: any[] = await api.queryDatabase("SELECT * FROM answer WHERE questionId = ?", [questionId]) as any[];
+        console.log("Answers from the database:", answers);
 
         // Set question details on the page
-        const questionTextElement: HTMLTextAreaElement | null = document.getElementById("questionText") as HTMLTextAreaElement | null;
-
-        let answersList: HTMLElement | null = document.getElementById("answersList");
+        const questionTextElement: HTMLDivElement | null = document.getElementById("questionText") as HTMLDivElement | null;
+        let answersList: HTMLDivElement | null = document.getElementById("answersList") as HTMLDivElement | null;
 
         if (questionTextElement && questionDetails && questionDetails.length > 0) {
-            questionTextElement.value = questionDetails[0].question;
-
+            questionTextElement.innerText = questionDetails[0].question;
+    
             // Display associated answers
             if (!answersList) {
                 answersList = document.createElement("div"); // create answersList if it doesn't exist
                 answersList.id = "answersList";
             }
 
-            if (answers && answers.length > 0) {
-                answers.forEach((answer) => {
-                    const answerParagraph: HTMLParagraphElement = document.createElement("p");
-                    answerParagraph.innerText = answer.answerText;
-                    answersList!.appendChild(answerParagraph);  // Notice the "!" after answersList
-                });
+       
+
+
+            const answersWithUsernames: any[] = await api.queryDatabase(
+                "SELECT answer.*, user.username " +
+                "FROM answer " +
+                "JOIN user ON answer.userId = user.userId " + // Change 'user.id' to 'user.userId'
+                "WHERE questionId = ?",
+                [questionId]
+            ) as any[];
+
+
+
+            const answersContainer: HTMLDivElement | null = document.getElementById("answersContainer") as HTMLDivElement | null;
+
+            // When displaying answers
+            if (answersContainer) {
+                console.log("answersContainer exists:", answersContainer);
+                answersContainer.innerHTML = "";
+
+                if (answersWithUsernames && answersWithUsernames.length > 0) {
+                    for (const answer of answersWithUsernames) {
+                        console.log("Answer:", answer);
+
+                        const answerParagraph: HTMLParagraphElement = document.createElement("p");
+
+                        // Include answer date in the displayed answer
+                        const answerDate: any = new Date(answer.answerDate);
+                        const formattedDate: any = answerDate.toLocaleDateString();
+                        const formattedTime: any = answerDate.toLocaleTimeString();
+
+                        answerParagraph.innerText = `Answer by ${answer.username} on ${formattedDate} at ${formattedTime}: ${answer.answer}`;
+
+                        answersContainer.appendChild(answerParagraph);
+                    }
+                } else {
+                    const noAnswersMessage: HTMLParagraphElement = document.createElement("p");
+                    noAnswersMessage.innerText = "No answers yet.";
+                    answersContainer.appendChild(noAnswersMessage);
+                }
+            } else {
+                console.error("answersContainer not found");
             }
 
             // Append or update answersList on the page
-            const existingAnswersList: HTMLElement | null = document.getElementById("answersList");
+            const existingAnswersList: HTMLDivElement | null = document.getElementById("answersList") as HTMLDivElement | null;
             if (existingAnswersList) {
+                console.log("Answers from the database:", answers);
                 existingAnswersList.replaceWith(answersList);
             } else {
                 document.body.appendChild(answersList);
             }
         }
-
-
     } catch (error) {
         console.error("Error fetching question details and answers:", error);
     }
-}
 
-function getQuestionDetails(): void {
+    async function getQuestionDetails(): Promise<void> {
+        try {
+            // Use the questionId to fetch the question details from the database
+            const questionDetails: any[] = await api.queryDatabase("SELECT * FROM question WHERE questionId = ?", [questionId]) as any[];
+            console.log("Question details from the database:", questionDetails);
+            // Call the function to get question details when the page loads
+            document.addEventListener("DOMContentLoaded", () => {
+                getQuestionDetails();
+            });
+            // Use the questionId to fetch associated answers
+            const answers: any[] = await api.queryDatabase("SELECT * FROM answer WHERE questionId = ?", [questionId]) as any[];
+            console.log("Answers from the database:", answers);
 
-    // Call the function to get question details when the page loads
-    document.addEventListener("DOMContentLoaded", () => {
-        getQuestionDetails();
-    });
+            // ... (Other code remains unchanged)
+        } catch (error) {
+            console.error("Error fetching question details and answers:", error);
+        }
+    }
+
+
+
 }
 
 
