@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         
 
-        const userId: string = session.get("user");
+        const userId: string = session.get("user"); 
         console.log(userId);
         
         const questionText: string = questionTextElement.value;

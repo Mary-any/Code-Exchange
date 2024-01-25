@@ -69,38 +69,17 @@
     <label for="profilePicture">Change Profile Picture</label>
     <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(this)">
 
-    <button onclick="deleteAccount()">Delete Account</button>
-  </div>
+    <button
+    class="btn btn-primary btn-lg btn-block logout-btn"
+    id="logoutButton"
+    type="submit"
+>
+
+    Logout
+</button>
 
   <!-- Script -->
-  <script>
-    function previewImage(input) {
-     
-      alert("Profile picture changed!");
-      document.getElementById('profile-img').src = URL.createObjectURL(input.files[0]);
-      redirectToProfile(); 
-    }
+  <script type="module" src="src/profile-setting.ts" defer></script>
 
-    function deleteAccount() {
-      var confirmDelete = confirm("Weet je zeker dat je je account wilt verwijderen?");
-
-      if (confirmDelete) {
-        
-        alert("Account deleted successfully!");
-        redirectToHome(); 
-      }
-    }
-
-    function redirectToProfile() {
-     
-      window.location.href = "profile.html";
-    }
-
-    function redirectToHome() {
-      
-      window.location.href = "profile.html";
-    }
-    
-  </script>
 </body>
 </html>

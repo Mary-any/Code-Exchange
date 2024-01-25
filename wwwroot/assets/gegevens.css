@@ -1,0 +1,63 @@
+/* Stijlen voor het formuliercontainer */
+
+body {
+    background-color: #04AA6D; /* Vervang deze kleur met de gewenste kleurcode */
+}
+
+.form-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Stijlen voor het formulierlabels */
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Stijlen voor de invoervelden */
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+/* Stijlen voor de knop */
+button {
+    background-color: #21830c;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2a8e23;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color on hover */
+li a:hover {
+  background-color: #555;
+  color: white;
+}

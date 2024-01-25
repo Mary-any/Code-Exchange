@@ -1,31 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="Viewport" content="width=device-width, intial-scal=1.0"/>
+
+    <!-- CSS Style -->
     <link rel="stylesheet" href="/assets/css/profile.css" />
+    <script src="https://kit.fontawesome.com/a7799efdc6.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
+
+    
 
 <nav>
     <div class="profile-section">
         <div class="profile-picture" id="profile-picture">
             <img src="/assets/img/lion.jpg" alt="Profile Picture" id="profile-img">
         </div>
-       
     </div>
+
 
     <ul class="navbar">
         
         <div>
             <span class="name" id="name"></span>
+            <br>
+            <br>
+
+            <h4>
+                <p> Date of Birth: <span class="date" id="dateBirth"></span> </p>
+            </h4>
+
+            <br>
+            <br>
+
+            <h4>
+                <p> Programming experience in years: <span class="program" id="programming"></span> </p>
+            </h4>
         </div>
+
+        
         <br>
         <li><a class="active" href="/homepage.html">Home</a></li>
         <li><a href="#summary">Summary</a></li>
         <li><a href="/vraag.html">Questions</a></li>
         <li><a href="/answer.html">Answers</a></li>
         <li><a href="#Votes">Votes</a></li>
-        <li><a href="#favorites">Favorites</a></li>
-        <li><a href="/profile-settings.html">Profile Settings</a></li>
+        <li><a href="/gegevens.html">Edit profile</a></li>
+
+        <br> 
+    
+    <!-- Logout button -->
+        <button class="btn btn-primary btn-lg btn-block logout-btn" id="logoutButton" type="submit"> Logout </button>
+
+        
+
+        <!-- Delet Account button -->
+        <button class="btn-verwijderen" id="verwijderen" type="submit">Delet Account</button>
+
+
+        <br>
+        <br>
+
+        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+        <button onclick="openImageUploader()">Change Profile Picture</button>
+
+        <br>
+        <br>
+       
+
+        <button id="toggleVisionImpaired">
+            <i class="fas fa-eye"></i>
+        </button>
+
+
+        <br>
+        <br>
+        
     </ul>
 </nav>
 
@@ -33,7 +87,6 @@
     <h2>Summary</h2>
     <br>
     <br>
-
 
     <!-- Voeg een element toe waarin de vragen worden weergegeven -->
 <div class="summary-container" id="summaryQ">
@@ -52,12 +105,38 @@
         <p>The user actively engages in discussions and provides thoughtful responses.</p>
     </div>
 
-    <div class="summary-container" id="summary-favorites">
-        <h3>Favorites</h3>
-        <p>This user has marked several questions as favorites for quick reference.</p>
-    </div>
+ 
 </div>
 
+<!-- Type Script file -->
 <script type="module" src="src/profile.ts" defer></script>
+<script type="module" src="src/profile-setting.ts" defer></script>
+
+<!-- Type Script file -->
+
+<script>
+    //Foto uploaden
+    function openImageUploader() {
+        document.getElementById('imageInput').click();
+    }
+
+    document.getElementById('imageInput').addEventListener('change', function (event) {
+        const fileInput = event.target;
+        const files = fileInput.files;
+
+        if (files.length > 0) {
+            const newImage = files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const newImageUrl = e.target.result;
+                document.getElementById('profile-img').src = newImageUrl;
+            };
+
+            reader.readAsDataURL(newImage);
+        }
+    });
+</script>
+
 </body>
 </html>

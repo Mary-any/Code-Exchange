@@ -5,65 +5,53 @@ import "./config";
 import { api, session } from "@hboictcloud/api";
 import { Question } from "./question-oop";
  
-document.addEventListener("DOMContentLoaded", async function () {
+// document.addEventListener("DOMContentLoaded",
+document.addEventListener("DOMContentLoaded", showUserName);
+
+async function showUserName () {
     const ingelogdeGebruiker = session.get("user");
  
     const nameElement: HTMLSpanElement | null = document.querySelector("#name");
+    const dateBirthElement: HTMLSpanElement | null = document.querySelector("#dateBirth");
+    const programmingElement: HTMLSpanElement | null = document.querySelector("#programming");
 
     const users: any = await api.queryDatabase("SELECT * FROM user WHERE userId = ? ", ingelogdeGebruiker);
 
     console.log(users);
 
-    if (nameElement) {
+    if (nameElement && dateBirthElement && programmingElement) {
         if (users[0]?.username) {
             nameElement.textContent = users[0].username;
             console.log("Zie gebruikersnaam");
         } else {
             console.error("Gebruikersnaam niet gevonden in de lokale opslag.");
         }
+
+        if (users[0]?.dateBirth) {
+            dateBirthElement.textContent = users[0].dateBirth;
+            console.log("Zie geboortedatum");
+        } else {
+            console.error("Geboortedatum niet gevonden in de lokale opslag.");
+        }
+
+        if (users[0]?.programming) {
+            programmingElement.textContent = users[0].programming;
+            console.log("Zie programmeertaal");
+        } else {
+            console.error("Programmeertaal niet gevonden in de lokale opslag.");
+        }
+
     } else {
         console.error("Element met ID 'name' niet gevonden.");
     }
-
-    const profielGebruiker = session.get("user");
-
-    const summaryQElement: HTMLSpanElement | null = document.querySelector("#summaryQ");
-
-    const question: any = await api.queryDatabase("SELECT * FROM question WHERE userId = ? ", profielGebruiker);
-
-    console.log(question);
-
-    if (summaryQElement) {
-        if (question.length > 0 && question[0]?.question) {
-            // summaryQElement.textContent = question[0].question;
-            loadQuestions();
-            console.log("Zie vraag van de gebruiker");
-        } else {
-            console.error("Vraag niet gevonden in de lokale opslag.");
-        }
-    } else {
-        console.error("Element met ID summaryQ' niet gevonden.");
-    }
-
-    const questions: Array<any> = await api.queryDatabase("SELECT * FROM question") as Array<any>;
-
-    if (questions.length > 0) {
-        for (let i: number = 0; i < questions.length; i++) {
-            console.log("userId=", questions[i].userId);
-            console.log("question =", questions[i].question);
-        }
-    } else {
-        console.log("Probeer het opnieuw");
-    }
-});
-
+};
 
 // Importeer de Profile-klasse
 import { Profile } from "./profile-oop";
 import { User } from "./user-oop";
 
 // Creëer een instantie van de Profile-klasse met de gebruikers-ID (vervang 'jouwGebruikersId' door de werkelijke ID)
-const userProfile = new User(session.get ("user"), null, null, null, null, null);
+const userProfile = new User(session.get ("user"), null, null, null, null, null, null, null, null);
 
 // Laad de vragen en update de HTML
 async function loadQuestions() {
@@ -97,6 +85,32 @@ async function loadQuestions() {
     }
 }
 
+function load(){
+    showUserName();
+    loadQuestions();
+}
+
 // Roep de functie aan om de vragen te laden zodra de DOM is geladen
 document.addEventListener("DOMContentLoaded", loadQuestions);
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleVisionImpairedButton: HTMLElement | null = document.getElementById("toggleVisionImpaired");
+
+    // Voeg klikgebeurtenis toe aan de knop
+    if (toggleVisionImpairedButton) {
+        toggleVisionImpairedButton.addEventListener("click", () => {
+            // Voer hier de logica uit voor het klikken op de toggleVisionImpaired-knop
+            console.log("Toggle Vision Impaired button clicked");
+            toggleZoom();
+        });
+    }
+
+    function toggleZoom(): void {
+        // Voeg hier de logica toe voor het in- en uitzoomen van de pagina
+        const currentZoom: number = parseFloat((document.body.style as any).zoom) || 0.2;
+        const newZoom: number = currentZoom === 1.0 ? 1.1 : 1.0; // Aangepaste zoomwaarde
+        (document.body.style as any).zoom = newZoom.toString();
+    }
+    
+});

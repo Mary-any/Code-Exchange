@@ -13,6 +13,29 @@ body{
     color: white;
 }
 
+/* Additional styling for the navbar */
+nav {
+    background-color: #333;
+    padding: 1rem;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Style for the active link in the navbar */
+nav a:hover,
+nav a:active,
+nav a:focus {
+    color: #4CAF50; /* Change this color as needed */
+}
+
+
 section{
     min-height: 100vh;
     width: 80%;

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="Viewport" content="width=device-width, intial-scal=1.0"/>
+
+<!-- CSS Style -->
+    <link rel="stylesheet" href= "/assets/gegevens.css"/>
+    <script src="https://kit.fontawesome.com/a7799efdc6.js" crossorigin="anonymous"></script>
+
+    <!-- Title -->
+    <title>Gegevens</title>
+</head>
+<body>
+
+    <ul class="navbar">
+        <li><a href="/profile.html">Profile</a></li>
+    </ul>
+
+    <div class="form-container">
+        <h2>Gegevens Aanpassen</h2>
+
+        <form id="profileForm">
+            <!-- Gebruikersnaam -->
+            <label for="username">User name:</label>
+            <input type="text" id="username" name="username" placeholder="New username">
+
+            <!-- Voornaam -->
+            <label for="firstName">First name:</label>
+            <input type="text" id="firstName" name="firstName" placeholder="New First name">
+
+            <!-- Achternaam -->
+            <label for="lastName">Last name:</label>
+            <input type="text" id="lastName" name="lastName" placeholder="New Last name">
+
+            <label for="username">Email:</label>
+            <input type="text" id="email" name="email" placeholder="New Email">
+
+            <!-- Geslacht -->
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="male">Man</option>
+                <option value="female">Woman</option>
+                <option value="other">Other</option>
+            </select>
+
+            <!-- Aantal jaren programmeerervaring -->
+            <label for="experience">Number of years of programming experience:</label>
+            <input type="number" id="experience" name="experience" placeholder="Years of experience">
+
+            <!-- Geboortedatum -->
+            <label for="birthdate">Date of birth:</label>
+            <input type="date" id="birthDate" name="birthdate">
+
+            <!-- Knop om wijzigingen op te slaan -->
+            <button id="klik" type="button">Save</button>
+        </form>
+    </div>
+
+    <!-- Typescript File -->
+    <script type="module" src="src/user-oop.ts" defer></script>
+    <script type="module" src="src/gegevens.ts" defer></script>
+
+</body>
+</html>

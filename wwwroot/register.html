@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="Viewport" content="width=device-width, intial-scal=1.0"/>
+    
+    <!-- Title -->
     <title>Register</title>
+
+    <!-- CSS Style -->
     <link rel="stylesheet" href="/assets/css/register.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <script src="https://kit.fontawesome.com/a7799efdc6.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <main>
@@ -13,6 +19,15 @@
             <div class="wrapper">
                 <div class="registration-box">
                     <div class="registration-section">
+
+                        <button id="toggleVisionImpaired">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    
+                        <button id="readPageButton">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        
                         <h1>Register</h1>
                         <form id="registerForm">
 
@@ -59,6 +74,10 @@
             </div>
         </div>
     </main>
+
+    <!-- Tyescrip File -->
     <script type="module" src="src/register.ts"></script>
+
+    
 </body>
 </html>

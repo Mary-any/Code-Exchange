@@ -17,13 +17,21 @@
     <header>
 
         <nav>
-            <a href="/homepage.html">Home</a>
-            <a href="#">Questions</a>
-            
+            <a href="/homepage.html">Home </a>
+            <a href="/profile.html">profile</a>
 
+        
         </nav>
 
         <h1>Question Platform</h1>
+        <button id="toggleVisionImpaired">
+            <i class="fas fa-eye"></i>
+        </button>
+    
+        <button id="readPageButton">
+            <i class="fas fa-volume-up"></i>
+        </button>
+      
         
     </header>
 
@@ -54,18 +62,14 @@
         </section>
     </main>
 
-    <button id="toggleVisionImpaired">
-        <i class="fas fa-eye"></i>
-    </button>
+    
 
-    <button id="readPageButton">
-        <i class="fas fa-volume-up"></i>
-    </button>
+  
     
 
     <script type="module" src="src/vraag.ts" defer></script>
     
-    <script>
+   <script>
         document.addEventListener("DOMContentLoaded", () => {
             const toggleButton = document.getElementById("toggleVisionImpaired");
             const body = document.body;
@@ -79,6 +83,13 @@
                 utterance.lang = lang;
                 speechSynthesis.speak(utterance);
             };
+
+            function toggleZoom() {
+                // Voeg hier de logica toe voor het in- en uitzoomen van de pagina
+                const currentZoom = parseFloat(document.body.style.zoom) || 1.0;
+                const newZoom = currentZoom === 1.0 ? 1.2 : 1.0; // Toggle tussen 1.0 en 1.5
+                document.body.style.zoom = newZoom;
+            }
 
             document.getElementById("submitQuestionButton").addEventListener("click", () => {
                 const questionText = document.getElementById("questionText").value;

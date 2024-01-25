@@ -21,8 +21,11 @@ export class Question {
     } 
 
     public async load (id: number): Promise<Question> {
-        const query: string= "SELECT * FROM question WHERE questionId= ?";
+        // const query: string= "SELECT * FROM question WHERE questionId= ?";
+        const query: string= "SELECT * FROM question ORDER BY questionDate DESC";
         const data: Array<any> = await api.queryDatabase (query, id) as Array<any>;
+        console.log(data);
+        
         const question : Question = new Question(data[0].userId, data[0].question, data[0].questionDate);
         question.questionId = data[0].questionId;
         return question;

@@ -96,24 +96,21 @@ button:hover {
 }
 
 /* Add more styles as needed */
-/* Button Styles */
 
-#toggleVisionImpaired {
-    position: fixed;
-    top: 20px;
-    left: 20px; /* Change right to left */
-    background-color: black;
-    color: white;
+/* Button Styles */
+button#toggleVisionImpaired,
+button#readPageButton {
+    background-color: #21830c;
+    color: #fff;
+    padding: 12px;
     border: none;
-    padding: 10px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Align the button to the left */
-    border-radius: 50%;
+    margin-right: 5px; /* Aangepaste rechtermarge voor de knoppen */
 }
 
-/* #toggleVisionImpaired i {
-    margin-left: 5px;
-} */
+button#toggleVisionImpaired:hover,
+button#readPageButton:hover {
+    background-color: #2a8e23;
+}
+
