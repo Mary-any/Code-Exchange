@@ -3,7 +3,7 @@
 // /* eslint-disable @typescript-eslint/typedef */
 import "./config";
 import { api, session } from "@hboictcloud/api";
-import { Question } from "./question-oop";
+import { Question } from "./.question-oop";
  
 // document.addEventListener("DOMContentLoaded",
 document.addEventListener("DOMContentLoaded", showUserName);

@@ -1,7 +1,7 @@
 import "./config";
 import { api, session } from "@hboictcloud/api";
 import { User } from "./models/user";
-import { Question } from "./question-oop";
+import { Question } from "./.question-oop";
 
 document.addEventListener("DOMContentLoaded", () => {
     async function submitQuestion(event: Event): Promise<void> {

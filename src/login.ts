@@ -16,6 +16,7 @@ function setup(): void {
             const data: any = await loginFromDatabase(username, password);
             
             if (data.length > 0) {
+       
                 // Maak user object aan met de waarden uit de database
                 // Sla de gebruikersgegevens op in een sessie
                 await session.set("user", data[0] .userId);
