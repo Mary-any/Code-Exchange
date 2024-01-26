@@ -158,5 +158,3 @@ async function getQuestions(): Promise<Question[] | undefined> {
 // Call the insert function
 insert();
 
-
-
